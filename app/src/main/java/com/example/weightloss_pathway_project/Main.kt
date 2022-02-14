@@ -17,16 +17,23 @@ class Main : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // This value will be dynamic based on the user logged in
         val personName = "Jordan"
         val welcomeName = "Welcome, $personName"
+
+        // Will be dynamic base on current Motivational Quote provided
         val welcomeMessage = findViewById<TextView>(R.id.mainWelcomeMessage)
         welcomeMessage.text = welcomeName
+
+        // link set new goals button
         val newGoals = findViewById<Button>(R.id.mainSetGoalsBtn)
 
+        // create action when newGoals button pressed
         newGoals.setOnClickListener{
             setWeeklyActivity(R.layout.activity_weekly)
         }
 
+        // gets id's of UI components for modification
         val drawerLayout: DrawerLayout = findViewById(R.id.mainNavDrawer)
         val nav: NavigationView = findViewById(R.id.navView)
 
@@ -36,6 +43,7 @@ class Main : AppCompatActivity() {
         myToggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        // provides functionality whenever item clicked on navigation bar in main menu
         nav.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.dailyMonday -> {
@@ -80,26 +88,31 @@ class Main : AppCompatActivity() {
 
     }
 
+    // Intent that will open login activity when activated
     private fun loginActivity(view: Int){
         val intent = Intent(this, Login::class.java)
         startActivity(intent)
     }
 
+    // Intent that will open about activity when activated
     private fun aboutActivity(view: Int){
         val intent = Intent(this, About::class.java)
         startActivity(intent)
     }
 
+    // Intent that will open weekly activity when activated
     private fun setWeeklyActivity(view: Int){
         val intent = Intent(this, Weekly::class.java)
         startActivity(intent)
     }
 
+    // Intent that will open contact us activity when activated
     private fun contactUsActivity(view: Int){
         val intent = Intent(this, FireBase::class.java)
         startActivity(intent)
     }
 
+    // important for navigation UI purposes
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (myToggle.onOptionsItemSelected(item)) {return true}
         return super.onOptionsItemSelected(item)
