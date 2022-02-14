@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navDailyGoal"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="@string/menuDailyGoals" >
+        <menu>
+            <item
+                android:id="@+id/dailySunday"
+                android:title="@string/menuSunday" />
+            <item
+                android:id="@+id/dailyMonday"
+                android:title="@string/menuMonday" />
+            <item
+                android:id="@+id/dailyTuesday"
+                android:title="@string/menuTuesday" />
+            <item
+                android:id="@+id/dailyWednesday"
+                android:title="@string/menuWednesday" />
+            <item
+                android:id="@+id/dailyThursday"
+                android:title="@string/menuThursday" />
+            <item
+                android:id="@+id/dailyFriday"
+                android:title="@string/menuFriday" />
+            <item
+                android:id="@+id/dailySaturday"
+                android:title="@string/menuSaturday" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/navAbout"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="@string/menuAbout" />
+    <item
+        android:id="@+id/navContactUs"
+        android:icon="@drawable/ic_baseline_mail_24"
+        android:title="@string/menuContactUs" />
+    <item
+        android:id="@+id/navSettings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/menuSettings" />
+    <item
+        android:id="@+id/navSignOut"
+        android:title="@string/menuSignOut"
+        android:icon="@drawable/ic_baseline_power_settings_new_24"/>
+</menu>

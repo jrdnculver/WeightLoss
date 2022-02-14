@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#673AB7"
+    tools:context=".Weekly">
+
+    <Button
+        android:id="@+id/weeklySubmitBtn"
+        android:layout_width="127dp"
+        android:layout_height="53dp"
+        android:backgroundTint="#FF018786"
+        android:text="@string/weeklySubmit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.946"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/weeklyMenuBtn"
+        android:layout_width="127dp"
+        android:layout_height="53dp"
+        android:backgroundTint="#FF018786"
+        android:text="@string/weeklyMenu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.946"
+        tools:ignore="TextContrastCheck" />
+
+    <Spinner
+        android:id="@+id/weeklyDurationSpinner"
+        android:layout_width="165dp"
+        android:layout_height="48dp"
+        android:contentDescription="@string/weeklyDurationSpinner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <Spinner
+        android:id="@+id/weeklyIntensitySpinner"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:contentDescription="@string/weeklyIntensitySpinner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <TextView
+        android:id="@+id/weeklyNutritionHeader"
+        android:layout_width="379dp"
+        android:layout_height="30dp"
+        android:text="@string/weeklyNutritionalHeader"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FAF7F7"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.31" />
+
+    <EditText
+        android:id="@+id/weeklyProteinGoalsTxt"
+        android:layout_width="375dp"
+        android:layout_height="48dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/weeklyProtein"
+        android:inputType="textPersonName"
+        android:textAllCaps="true"
+        android:textColor="#F8F5F5"
+        android:textColorHint="#C5CAE9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.374" />
+
+    <EditText
+        android:id="@+id/weeklyGrainGoalsTxt"
+        android:layout_width="375dp"
+        android:layout_height="48dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/weeklyGrain"
+        android:inputType="textPersonName"
+        android:textAllCaps="true"
+        android:textColor="#F8F5F5"
+        android:textColorHint="#C5CAE9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.456" />
+
+    <EditText
+        android:id="@+id/weeklyVegetableGoalsTxt"
+        android:layout_width="375dp"
+        android:layout_height="48dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/weeklyVegetable"
+        android:inputType="textPersonName"
+        android:textAllCaps="true"
+        android:textColor="#F8F5F5"
+        android:textColorHint="#C5CAE9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.538" />
+
+    <EditText
+        android:id="@+id/weeklyFruitGoalsTxt"
+        android:layout_width="375dp"
+        android:layout_height="48dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/weeklyFruit"
+        android:inputType="textPersonName"
+        android:textAllCaps="true"
+        android:textColor="#F8F5F5"
+        android:textColorHint="#C5CAE9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.619" />
+
+    <TextView
+        android:id="@+id/weeklyFitnessHeader"
+        android:layout_width="379dp"
+        android:layout_height="30dp"
+        android:text="@string/weeklyFitnessHeader"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FAF7F7"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.69" />
+
+    <TextView
+        android:id="@+id/weeklyWelcomeMessage"
+        android:layout_width="379dp"
+        android:layout_height="30dp"
+        android:text="@string/weeklyWelcome"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#FAF7F7"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.199" />
+
+    <ImageView
+        android:id="@+id/loginImgView"
+        android:layout_width="366dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/loginImageDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.073"
+        app:srcCompat="@drawable/wellness_image"
+        tools:ignore="ImageContrastCheck" />
+
+    <EditText
+        android:id="@+id/weeklyDate"
+        android:layout_width="379dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="@string/weeklyDate"
+        android:inputType="date"
+        android:textColorHint="#C5CAE9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.245"
+        android:autofillHints="" />
+
+    <Spinner
+        android:id="@+id/weeklyModeSpinner"
+        android:layout_width="375dp"
+        android:layout_height="48dp"
+        android:contentDescription="@string/weeklyModeSpinner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.747" />
+</androidx.constraintlayout.widget.ConstraintLayout>
