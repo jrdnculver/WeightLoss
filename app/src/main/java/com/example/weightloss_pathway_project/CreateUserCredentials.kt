@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.widget.Button
 
 class CreateUserCredentials : AppCompatActivity() {
+    private lateinit var creatingUser : Client
     override fun onCreate(savedInstanceState: Bundle?) {
+        title = "Account Creation"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_user_credentials)
 
+        // Access previous user account
+        creatingUser = getAccessToCurrentUser()
         // link finish button
         val finish = findViewById<Button>(R.id.createUserFinishBtn)
         // link cancel button
@@ -28,6 +32,7 @@ class CreateUserCredentials : AppCompatActivity() {
     // Intent that will open login activity when activated
     private fun finishedCreatedActivity(view: Int){
         val intent = Intent(this, Login::class.java)
+        intent.putExtra("user", creatingUser)
         startActivity(intent)
     }
 
@@ -35,5 +40,11 @@ class CreateUserCredentials : AppCompatActivity() {
     private fun loginActivity(view: Int){
         val intent = Intent(this, Login::class.java)
         startActivity(intent)
+    }
+
+    // Access Intent object from previous activity
+    private fun getAccessToCurrentUser(): Client {
+        return intent.extras?.get("user") as Client
+
     }
 }

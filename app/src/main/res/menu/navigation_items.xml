@@ -8,26 +8,8 @@
         android:title="@string/menuDailyGoals" >
         <menu>
             <item
-                android:id="@+id/dailySunday"
-                android:title="@string/menuSunday" />
-            <item
-                android:id="@+id/dailyMonday"
-                android:title="@string/menuMonday" />
-            <item
-                android:id="@+id/dailyTuesday"
-                android:title="@string/menuTuesday" />
-            <item
-                android:id="@+id/dailyWednesday"
-                android:title="@string/menuWednesday" />
-            <item
-                android:id="@+id/dailyThursday"
-                android:title="@string/menuThursday" />
-            <item
-                android:id="@+id/dailyFriday"
-                android:title="@string/menuFriday" />
-            <item
-                android:id="@+id/dailySaturday"
-                android:title="@string/menuSaturday" />
+                android:id="@+id/dailyViewGoals"
+                android:title="@string/menuViewGoals" />
         </menu>
     </item>
     <item
@@ -42,6 +24,10 @@
         android:id="@+id/navSettings"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/menuSettings" />
+    <item
+        android:id="@+id/navHelp"
+        android:icon="@drawable/ic_baseline_help_24"
+        android:title="@string/menuHelp" />
     <item
         android:id="@+id/navSignOut"
         android:title="@string/menuSignOut"

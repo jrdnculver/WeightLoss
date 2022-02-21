@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_about.xml" value="0.25" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/drawable/weightlosspathway_background.xml" value="0.1" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/drawable/weightlosspathway_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/font/gotham.xml" value="0.1" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_about.xml" value="0.22" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_create_user.xml" value="0.25" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_create_user_contact_info.xml" value="0.25" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_create_user_credentials.xml" value="0.25" />
@@ -17,11 +20,17 @@
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_preferences.xml" value="0.3625" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_settings.xml" value="0.25" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_weekly.xml" value="0.25" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/activity_weekly_tab.xml" value="0.26875" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/fragment_day_of_week.xml" value="0.26875" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/fragment_weekly_tab.xml" value="0.26875" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/navheader.xml" value="0.25" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/navigation.xml" value="0.2" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/spinnerlist.xml" value="0.26875" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/layout/spinnertextview.xml" value="0.26875" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/menu/menu.xml" value="0.26875" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/menu/navigation_items.xml" value="0.26875" />
         <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/menu/navitems.xml" value="0.26875" />
+        <entry key="..\:/Users/kentu/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/xml/array.xml" value="0.3625" />
         <entry key="..\:/Users/njbjj/AndroidStudioProjects/Course Project Documents/WeightLoss_Pathway_project/app/src/main/res/layout/activity_preferences.xml" value="0.23596014492753623" />
         <entry key="..\:/Users/njbjj/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/drawable/WeightLossPathway_background.xml" value="0.1" />
         <entry key="..\:/Users/njbjj/AndroidStudioProjects/WeightLoss_Pathway_project/app/src/main/res/drawable/ic_launcher.xml" value="0.3046153846153846" />

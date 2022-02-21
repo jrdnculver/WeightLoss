@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 class FireBase : AppCompatActivity() {
     private var signInRequestCode : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
+        title = "Chat"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fire_base)
 

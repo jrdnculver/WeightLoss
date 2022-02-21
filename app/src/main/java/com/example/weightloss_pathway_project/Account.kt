@@ -1,13 +1,14 @@
 package com.example.weightloss_pathway_project
 
-open class Account {
+import java.io.Serializable
+
+open class Account : Serializable{
     var firstName : String = ""
     var lastName : String = ""
-    var address : Address = Address()
-    var phone : Phone = Phone()
+    var address : String = ""
+    var phone : String = ""
     var isAdmin : Boolean = false
-    var birthday : BirthDate = BirthDate()
-    var title : String = ""
+    var birthday : String = ""
     var username : String = ""
     var password : String = ""
 
@@ -27,6 +28,60 @@ open class Account {
         }
         // Return the arraylist to a string and trim white space
         return newSplit.joinToString(" ").trim()
+    }
+
+    fun checkMonth(date: String) : String{
+        var month : String = ""
+
+        // New mutable list for modified strings
+        var newSplit : ArrayList<String> = ArrayList<String>()
+        if (date != "") {
+            // Separate each value with by delimiter space
+            var splitting = date.split("/")
+                month = splitting[0]
+        }
+
+        // Get length of day variable
+        var num = month.trim().length
+        // Ensure formatting for month value
+        if (num == 1){
+            var zero : String = "0".trim()
+            month = zero.plus(month.trim())
+        }
+
+        return month
+    }
+
+    fun checkDay(date: String) : String{
+        var day : String = ""
+
+        if (date != "") {
+            // Separate each value with by delimiter space
+            var splitting = date.split("/")
+            day = splitting[1]
+        }
+
+        // Get length of day variable
+        var num = day.trim().length
+        // Ensure formatting for day value
+        if (num == 1){
+            var zero : String = "0".trim()
+            day = zero.plus(day.trim())
+        }
+
+        return day
+    }
+
+    fun checkYear(date: String) : String{
+        var year : String = ""
+
+        if (date != "") {
+            // Separate each value with by delimiter space
+            var splitting = date.split("/")
+            year = splitting[2]
+        }
+
+        return year
     }
 }
 

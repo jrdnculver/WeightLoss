@@ -9,6 +9,7 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        title = "Login"
 
         // link sign in button
         var signIn = findViewById<Button>(R.id.loginSignInBtn)

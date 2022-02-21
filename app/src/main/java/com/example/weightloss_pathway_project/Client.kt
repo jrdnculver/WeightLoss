@@ -1,4 +1,6 @@
 package com.example.weightloss_pathway_project
 
-class Client : Account() {
+import java.io.Serializable
+
+class Client : Account(), Serializable{
 }

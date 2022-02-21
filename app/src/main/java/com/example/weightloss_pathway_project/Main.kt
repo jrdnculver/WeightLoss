@@ -46,35 +46,20 @@ class Main : AppCompatActivity() {
         // provides functionality whenever item clicked on navigation bar in main menu
         nav.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.dailyMonday -> {
-                    Snackbar.make(findViewById(R.id.dailyMonday), "We are going to Monday",Snackbar.LENGTH_LONG).show()
-                }
-                R.id.dailyTuesday -> {
-                    Snackbar.make(findViewById(R.id.dailyTuesday), "We are going to Tuesday",Snackbar.LENGTH_LONG).show()
-                }
-                R.id.dailyWednesday -> {
-                    Snackbar.make(findViewById(R.id.dailyWednesday), "We are going to Wednesday",Snackbar.LENGTH_LONG).show()
-                }
-                R.id.dailyThursday -> {
-                    Snackbar.make(findViewById(R.id.dailyThursday), "We are going to Thursday",Snackbar.LENGTH_LONG).show()
-                }
-                R.id.dailyFriday -> {
-                    Snackbar.make(findViewById(R.id.dailyFriday), "We are going to Friday",Snackbar.LENGTH_LONG).show()
-                }
-                R.id.dailySaturday -> {
-                    Snackbar.make(findViewById(R.id.dailySaturday), "We are going to Saturday",Snackbar.LENGTH_LONG).show()
-                }
-                R.id.dailySunday -> {
-                    Snackbar.make(findViewById(R.id.dailySunday), "We are going to Sunday",Snackbar.LENGTH_LONG).show()
+                R.id.dailyViewGoals -> {
+                    weeklyTabActivity(R.layout.activity_weekly_tab)
                 }
                 R.id.navSettings -> {
-                    Snackbar.make(findViewById(R.id.navSettings), "Going to settings",Snackbar.LENGTH_LONG).show()
+                    settingsActivity(R.layout.activity_settings)
                 }
                 R.id.navContactUs -> {
                     contactUsActivity(R.layout.activity_fire_base)
                 }
                 R.id.navAbout -> {
                     aboutActivity(R.layout.activity_about)
+                }
+                R.id.navHelp -> {
+                    helpActivity(R.layout.activity_help)
                 }
                 R.id.navSignOut -> {
                     Snackbar.make(findViewById(R.id.navSignOut), "Do you want to Sign out?",Snackbar.LENGTH_LONG).show()
@@ -109,6 +94,24 @@ class Main : AppCompatActivity() {
     // Intent that will open contact us activity when activated
     private fun contactUsActivity(view: Int){
         val intent = Intent(this, FireBase::class.java)
+        startActivity(intent)
+    }
+
+    // Intent that will open WeeklyTab activity when activated
+    private fun weeklyTabActivity(view: Int){
+        val intent = Intent(this, WeeklyTab::class.java)
+        startActivity(intent)
+    }
+
+    // Intent that will open login activity when activated
+    private fun settingsActivity(view: Int){
+        val intent = Intent(this, Settings::class.java)
+        startActivity(intent)
+    }
+
+    // Intent that will open login activity when activated
+    private fun helpActivity(view: Int){
+        val intent = Intent(this, Help::class.java)
         startActivity(intent)
     }
 

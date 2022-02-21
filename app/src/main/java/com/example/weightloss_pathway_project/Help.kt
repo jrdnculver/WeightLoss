@@ -3,11 +3,10 @@ package com.example.weightloss_pathway_project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class Settings : AppCompatActivity() {
+class Help : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
-        title = "Settings"
+        setContentView(R.layout.activity_help)
+        title = "Help"
     }
-
 }

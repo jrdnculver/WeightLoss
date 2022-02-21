@@ -9,6 +9,8 @@ class About : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
+        setTheme(R.style.WeightLoss_main_style)
+        title = "About Us!"
 
         // link menu button
         val menu = findViewById<Button>(R.id.aboutMenuBtn)

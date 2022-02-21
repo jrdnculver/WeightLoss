@@ -44,6 +44,8 @@
     <string name="menuSunday">"Sunday"</string>
     <string name="menuSignOut">"Sign Out"</string>
     <string name="menuContactUs">"Contact Us!"</string>
+    <string name="menuViewGoals">"View Goals"</string>
+    <string name="menuHelp">"Help"</string>
     <!-- create_user -->
     <string name="createNext">"Next"</string>
     <string name="createCancel">"Cancel"</string>
@@ -61,20 +63,22 @@
     <string name="createUsername">"Username"</string>
     <string name="createPassword">"Password"</string>
     <string name="createFinish">"Finish"</string>
+    <string name="createDate">"Birth Date"</string>
+    <string name="createCalendarBtn">"Calendar Button"</string>
     <!-- about -->
     <string name="aboutBrookeDesc">"This application is designed to help aid you in your weight loss and wellness journey.  Finding your Why: Ask yourself why you are choosing this path for yourself. Ask this question over and over again until you cannot answer it more completely. Your why should be more than just “I want to lose weight”. It should have deeper meaning than that." </string>
     <string name="aboutBrookeIntro">"WeightLoss Pathway is brought to you by Brooke McCartney WeightLoss Ltd." </string>
     <string name="aboutBrookeTitle">"Brooke’s Office Hours" </string>
-    <string name="aboutBrookeHours">"Monday - Thursday       7 am - 4 pm CST       Friday                          7 am- Noon CST            Contact Brooke for additional hours or one on one training and coaching sessions." </string>
+    <string name="aboutBrookeHours">"Monday - Thursday            7 am - 4 pm   CST Friday                      7 am - Noon    CST            Contact Brooke for additional hours or one on one training and coaching sessions." </string>
     <string name="aboutBrookeImgDesc">"Picture of Brooke" </string>
     <!-- weekly -->
     <string name="weeklyWelcome">"Set %s Daily Goals" </string>
     <string name="weeklyNutritionalHeader">"Nutritional Goals" </string>
     <string name="weeklyFitnessHeader">"Fitness Goals" </string>
-    <string name="weeklyProtein">"Protein Servings" </string>
-    <string name="weeklyGrain">"Grain Servings" </string>
-    <string name="weeklyVegetable">"Vegetable Servings" </string>
-    <string name="weeklyFruit">"Fruit Servings" </string>
+    <string name="weeklyGoalOne">"Goal 1" </string>
+    <string name="weeklyGoalTwo">"Goal 2" </string>
+    <string name="weeklyGoalThree">"Goal 3" </string>
+    <string name="weeklyGoalFour">"Goal 4" </string>
     <string name="weeklyDate">"Choose Date" </string>
     <string name="weeklyModeSpinner">"Spinner Mode Selection" </string>
     <string name="weeklyIntensitySpinner">"Spinner Intensity Selection" </string>
@@ -84,4 +88,19 @@
     <!-- firebase -->
     <string name="fireImgDescription">"FireBase Chat Service" </string>
     <string name="fireInput">"Input" </string>
+    <string name="title_activity_weekly_tab">WeeklyTab</string>
+    <!-- Tabs -->
+    <string name="tabMonday">"Mon" </string>
+    <string name="tabTuesday">"Tue" </string>
+    <string name="tabWednesday">"Wed" </string>
+    <string name="tabThursday">"Thu" </string>
+    <string name="tabFriday">"Fri" </string>
+    <string name="tabSaturday">"Sat" </string>
+    <string name="tabSunday">"Sun" </string>
+    <!-- Weekly Tabs -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="TabDescription">"Days of the weeks tabs"</string>
+    <string name="AdapterTab">"View"</string>
+    <string name="weeklyTabFloating">"Mail floating action button"</string>
+    <string name="weeklyTabDateTxt">"Date Selection Text"</string>
 </resources>
