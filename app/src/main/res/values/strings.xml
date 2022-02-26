@@ -72,7 +72,7 @@
     <string name="aboutBrookeHours">"Monday - Thursday            7 am - 4 pm   CST Friday                      7 am - Noon    CST            Contact Brooke for additional hours or one on one training and coaching sessions." </string>
     <string name="aboutBrookeImgDesc">"Picture of Brooke" </string>
     <!-- weekly -->
-    <string name="weeklyWelcome">"Set %s Daily Goals" </string>
+    <string name="weeklyWelcome">"%s Daily Goals" </string>
     <string name="weeklyNutritionalHeader">"Nutritional Goals" </string>
     <string name="weeklyFitnessHeader">"Fitness Goals" </string>
     <string name="weeklyGoalOne">"Goal 1" </string>
@@ -102,5 +102,5 @@
     <string name="TabDescription">"Days of the weeks tabs"</string>
     <string name="AdapterTab">"View"</string>
     <string name="weeklyTabFloating">"Mail floating action button"</string>
-    <string name="weeklyTabDateTxt">"Date Selection Text"</string>
+    <string name="weeklyTabDateTxt">"Date Selection"</string>
 </resources>

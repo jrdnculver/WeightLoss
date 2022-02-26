@@ -7,30 +7,52 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
-import java.io.Serializable
+import org.w3c.dom.Text
 import java.util.*
 
 class CreateUserName : AppCompatActivity() {
     private var creatingUser : Client = Client()
+    private lateinit var firstname : TextView
+    private lateinit var lastname : TextView
+    private lateinit var dateText: TextView
+    private lateinit var dateBtn: Button
+    private lateinit var next: Button
+    private lateinit var cancel: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_user_name)
         title = "Account Creation"
 
-        // Gets value of user first name
-        val firstname = findViewById<TextView>(R.id.createUserFirstNameTxt)
-        // Gets value of user last name
-        val lastname = findViewById<TextView>(R.id.createUserLastNameTxt)
-        // Gets value of user birthday
-        val dateText = findViewById<TextView>(R.id.createUserBirthTxt)
-        // Access's birthday button
-        val dateBtn = findViewById<Button>(R.id.createUserBirthBtn)
+        instantiate()
+        onClick()
+    }
 
-        // link next button
-        val next = findViewById<Button>(R.id.createUserNameNextBtn)
-        // link cancel button
-        val cancel = findViewById<Button>(R.id.createUserCancelBtn)
+    // Intent that will open contact info activity when activated
+    private fun contactInfoActivity(view: Int){
+        val intent = Intent(this, CreateUserContactInfo::class.java)
+        intent.putExtra("user", creatingUser)
+        startActivity(intent)
+    }
 
+    // Intent that will open login activity when activated
+    private fun loginActivity(view: Int){
+        val intent = Intent(this, Login::class.java)
+        startActivity(intent)
+    }
+
+    // Instantiates object from XML
+    private fun instantiate(){
+        firstname = findViewById<TextView>(R.id.createUserFirstNameTxt)
+        lastname = findViewById<TextView>(R.id.createUserLastNameTxt)
+        dateText = findViewById<TextView>(R.id.createUserBirthTxt)
+        dateBtn = findViewById<Button>(R.id.createUserBirthBtn)
+        next = findViewById<Button>(R.id.createUserNameNextBtn)
+        cancel = findViewById<Button>(R.id.createUserCancelBtn)
+    }
+
+    // Will handle onClick functionality
+    private fun onClick(){
         // create action when next button pressed
         next.setOnClickListener{
             if (firstname.text.isEmpty()){
@@ -46,20 +68,20 @@ class CreateUserName : AppCompatActivity() {
 
                 var first = firstname.text.toString()
                 // Valid and assign first name
-                var validFirstName = creatingUser.checkName(firstname.text.toString())
+                val validFirstName = creatingUser.checkName(firstname.text.toString())
                 creatingUser.firstName = validFirstName
 
                 // Valid and assign last name
-                var validLastName = creatingUser.checkName(lastname.text.toString())
+                val validLastName = creatingUser.checkName(lastname.text.toString())
                 creatingUser.lastName = validLastName
 
                 // Valid and assign date
-                var validMonth = creatingUser.checkMonth(dateText.text.toString())
-                var validDay = creatingUser.checkDay(dateText.text.toString())
-                var validYear = creatingUser.checkYear(dateText.text.toString())
+                val validMonth = creatingUser.checkMonth(dateText.text.toString())
+                val validDay = creatingUser.checkDay(dateText.text.toString())
+                val validYear = creatingUser.checkYear(dateText.text.toString())
 
                 // Assign valid date values to user account
-                var birthday: BirthDate = BirthDate()
+                val birthday: Date = Date()
                 birthday.month = validMonth.trim()
                 birthday.day = validDay.trim()
                 birthday.year = validYear.trim()
@@ -88,18 +110,5 @@ class CreateUserName : AppCompatActivity() {
                     dateText.text=String.format("${Month+1} / $Day / $Year")},year,month,day)
             myDatePicker.show()
         }
-    }
-
-    // Intent that will open contact info activity when activated
-    private fun contactInfoActivity(view: Int){
-        val intent = Intent(this, CreateUserContactInfo::class.java)
-        intent.putExtra("user", creatingUser)
-        startActivity(intent)
-    }
-
-    // Intent that will open login activity when activated
-    private fun loginActivity(view: Int){
-        val intent = Intent(this, Login::class.java)
-        startActivity(intent)
     }
 }

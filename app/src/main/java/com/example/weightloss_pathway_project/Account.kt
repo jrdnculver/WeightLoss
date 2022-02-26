@@ -6,8 +6,8 @@ open class Account : Serializable{
     var firstName : String = ""
     var lastName : String = ""
     var address : String = ""
+    var email : String = ""
     var phone : String = ""
-    var isAdmin : Boolean = false
     var birthday : String = ""
     var username : String = ""
     var password : String = ""

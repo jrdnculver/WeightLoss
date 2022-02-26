@@ -16,28 +16,25 @@ internal class MyTabAdapter(
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                DayOfWeek()
+                Sunday()
             }
             1 -> {
-                DayOfWeek()
+                Monday()
             }
             2 -> {
-                DayOfWeek()
+                Tuesday()
             }
             3 -> {
-                DayOfWeek()
+                Wednesday()
             }
             4 -> {
-                DayOfWeek()
+                Thursday()
             }
             5 -> {
-                DayOfWeek()
+                Friday()
             }
             6 -> {
-                DayOfWeek()
-            }
-            7 -> {
-                DayOfWeek()
+                Saturday()
             }
             else -> getItem(position)
         }

@@ -1,6 +1,22 @@
 package com.example.weightloss_pathway_project
 
+import java.util.regex.Pattern
+
 class Email {
-    var account : String = ""
-    var domain : String = ""
+    var userEmail : String = ""
+    var isEmail : Boolean = false
+
+    fun isValidEmail(email: String): Boolean {
+        val EMAIL_STRING = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+         isEmail = Pattern.compile(EMAIL_STRING).matcher(email).matches()
+
+        if (isEmail == true){
+            userEmail = email
+            return true
+        }
+        else{
+            return false
+        }
+    }
 }
