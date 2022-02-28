@@ -13,14 +13,26 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.IgnoreExtraProperties
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+
 
 class CreateUserCredentials : AppCompatActivity() {
     private lateinit var creatingUser : Client
     private lateinit var  auth: FirebaseAuth
+    private lateinit var firebaseUser : FirebaseUser
+    private lateinit var fireData: FirebaseFirestore
+    private lateinit var database: DatabaseReference
     private lateinit var finish: Button
     private lateinit var cancel: Button
     private lateinit var email: TextView
     private lateinit var password: TextView
+    private lateinit var username: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Page Title
@@ -33,6 +45,8 @@ class CreateUserCredentials : AppCompatActivity() {
 
         // Initialize Firebase Instance for Authentication
         auth= FirebaseAuth.getInstance()
+        database = Firebase.database.reference
+        fireData = FirebaseFirestore.getInstance()
 
         instantiate()
         onClick()
@@ -70,6 +84,7 @@ class CreateUserCredentials : AppCompatActivity() {
         email = findViewById(R.id.createEmailTxt)
         // Get value for password
         password = findViewById(R.id.createPasswordTxt)
+        username = findViewById(R.id.createUsernameTxt)
     }
 
     // Will provide functionality with onClick commands
@@ -79,6 +94,7 @@ class CreateUserCredentials : AppCompatActivity() {
             // Turn values to string for creating user function in firebase
             val emails = email.text.toString()
             val passwords = password.text.toString()
+            val usernames = username.text.toString()
 
             if (email.text.isEmpty()){
                 Snackbar.make(findViewById(R.id.createEmailTxt), "Enter Valid Email", Snackbar.LENGTH_LONG).show()
@@ -88,11 +104,12 @@ class CreateUserCredentials : AppCompatActivity() {
             }
             else {
                 val mail = Email()
-                mail.isValidEmail(emails)
+                mail.isEmail = mail.isValidEmail(emails)
 
                 if (mail.isEmail){
                     creatingUser.email = emails.trim()
                     creatingUser.password = passwords.trim()
+                    creatingUser.username = usernames.trim()
 
                     // If text are not null, create new account
                     auth.createUserWithEmailAndPassword(emails, passwords)
@@ -100,9 +117,9 @@ class CreateUserCredentials : AppCompatActivity() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success")
-                            val user = auth.currentUser.apply {
-
-                            }
+                            // Save User
+                            writeNewUser(creatingUser.username, creatingUser.firstname, creatingUser.lastname, creatingUser.address, creatingUser.email, creatingUser.phone,
+                                        creatingUser.isAdmin)
                             // Return to login page after account created
                             finishedCreatedActivity(R.layout.activity_login)
                         } else {
@@ -137,5 +154,20 @@ class CreateUserCredentials : AppCompatActivity() {
         cancel.setOnClickListener{
             loginActivity(R.layout.activity_login)
         }
+    }
+
+    // Class constructor for data input for new Account creation
+    @IgnoreExtraProperties
+    data class SaveUser(val username : String?, val firstname: String? = null, val lastname: String? = null, val address : String? = null,
+        val email : String? = null, val phone : String? = null, val isAdmin : Boolean = false ) {
+        // Null default values create a no-argument default constructor, which is needed
+        // for deserialization from a DataSnapshot.
+    }
+
+    // Write new Account to database with username as userId
+    fun writeNewUser(username : String, firstname: String, lastname: String, address: String, email : String, phone: String, isAdmin: Boolean) {
+        val user = SaveUser(username, firstname, lastname, address, email, phone, isAdmin)
+
+        database.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).setValue(user)
     }
 }

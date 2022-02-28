@@ -25,6 +25,8 @@
     <string name="loginCreateAccount">"Create Account"</string>
     <string name="loginImageDescription">"ImgHeader"</string>
     <string name="loginEmail">"Email"</string>
+    <string name="loginFacebook">"Facebook"</string>
+    <string name="loginGoogle">"Google"</string>
     <!-- main -->
     <string name="mainMotivation">"REMEMBER why you do what you do!"</string>
     <string name="MainDrawer">"Main Drawer"</string>

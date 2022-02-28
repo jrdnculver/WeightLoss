@@ -3,14 +3,14 @@ package com.example.weightloss_pathway_project
 import java.io.Serializable
 
 open class Account : Serializable{
-    var firstName : String = ""
-    var lastName : String = ""
-    var address : String = ""
-    var email : String = ""
-    var phone : String = ""
-    var birthday : String = ""
-    var username : String = ""
-    var password : String = ""
+    var firstname : String = String()
+    var lastname : String = String()
+    var address : String = String()
+    var email : String = String()
+    var phone : String = String()
+    var birthday : String = String()
+    var username : String = String()
+    var password : String = String()
 
     fun checkName(first: String) : String {
         // New mutable list for modified strings

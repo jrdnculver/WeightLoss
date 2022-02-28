@@ -3,10 +3,10 @@ package com.example.weightloss_pathway_project
 import android.telephony.PhoneNumberUtils.isGlobalPhoneNumber
 
 class Phone {
-    var area : String = ""
-    var prefix : String = ""
-    var lineNum : String = ""
-    var phoneNumber : String = ""
+    var area : String = String()
+    var prefix : String = String()
+    var lineNum : String = String()
+    var phoneNumber : String = String()
     var isNumber : Boolean = false
 
     fun isValidPhone(phone : String) : Boolean {
@@ -14,12 +14,16 @@ class Phone {
     }
 
     fun phoneToString() : String {
-        return String.format("$(area)$prefix-$lineNum")
+        return String.format("($area)$prefix-$lineNum")
     }
 
     fun phoneBreakDown(phone : String) {
         area = phone.slice(0..2).toString()
         prefix = phone.slice(3..5)
         lineNum = phone.slice((6..9))
+    }
+
+    fun phoneToDatabaseFire() : String {
+        return String.format("$area/$prefix/$lineNum")
     }
 }

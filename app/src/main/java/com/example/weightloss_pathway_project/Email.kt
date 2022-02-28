@@ -3,7 +3,7 @@ package com.example.weightloss_pathway_project
 import java.util.regex.Pattern
 
 class Email {
-    var userEmail : String = ""
+    var userEmail : String = String()
     var isEmail : Boolean = false
 
     fun isValidEmail(email: String): Boolean {

@@ -69,11 +69,11 @@ class CreateUserName : AppCompatActivity() {
                 var first = firstname.text.toString()
                 // Valid and assign first name
                 val validFirstName = creatingUser.checkName(firstname.text.toString())
-                creatingUser.firstName = validFirstName
+                creatingUser.firstname = validFirstName
 
                 // Valid and assign last name
                 val validLastName = creatingUser.checkName(lastname.text.toString())
-                creatingUser.lastName = validLastName
+                creatingUser.lastname = validLastName
 
                 // Valid and assign date
                 val validMonth = creatingUser.checkMonth(dateText.text.toString())

@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter
 class CreateUserContactInfo : AppCompatActivity() {
     private lateinit var creatingUser : Client
     private lateinit var states : MutableList<String>
-    private var stateSelection : String = ""
+    private var stateSelection : String = String()
     private lateinit var street : TextView
     private lateinit var city : TextView
     private lateinit var state : Spinner
@@ -128,12 +128,12 @@ class CreateUserContactInfo : AppCompatActivity() {
                 address.city = city.text.toString()
                 address.state = stateSelection
                 address.zip = zip.text.toString()
-                val location = address.addressToString()
+                val location = address.addressToDatabaseFire()
                 creatingUser.address = location
 
 
                 number.phoneBreakDown(phone.text.toString())
-                number.phoneNumber = number.phoneToString()
+                number.phoneNumber = number.phoneToDatabaseFire()
 
                 creatingUser.phone = number.phoneNumber
 

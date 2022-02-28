@@ -13,13 +13,16 @@ import com.google.android.material.snackbar.Snackbar
 
 class Main : AppCompatActivity() {
     private lateinit var myToggle: ActionBarDrawerToggle
+    private lateinit var currentUser : Client
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // getting access to current user
+        currentUser = getAccessToCurrentUser()
+
         // This value will be dynamic based on the user logged in
-        val personName = "Jordan"
-        val welcomeName = "Welcome, $personName"
+        val welcomeName = "Welcome, ${currentUser.firstname}"
 
         // Will be dynamic base on current Motivational Quote provided
         val welcomeMessage = findViewById<TextView>(R.id.mainWelcomeMessage)
@@ -119,5 +122,12 @@ class Main : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (myToggle.onOptionsItemSelected(item)) {return true}
         return super.onOptionsItemSelected(item)
+    }
+
+    // Get access to passed intent
+    private fun getAccessToCurrentUser(): Client {
+
+        return intent.extras?.get("currentUser") as Client
+
     }
 }
