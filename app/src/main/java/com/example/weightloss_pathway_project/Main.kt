@@ -1,8 +1,10 @@
 package com.example.weightloss_pathway_project
 
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
@@ -10,23 +12,31 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 
 class Main : AppCompatActivity() {
     private lateinit var myToggle: ActionBarDrawerToggle
-    private lateinit var currentUser : Client
+    private var currentUser : Client? = null
+    private var firebaseUser : FirebaseUser? = null
+    private lateinit var database: DatabaseReference
+    private lateinit var databaseValues : ArrayList<Client?>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // getting access to current user
-        currentUser = getAccessToCurrentUser()
-
-        // This value will be dynamic based on the user logged in
-        val welcomeName = "Welcome, ${currentUser.firstname}"
-
-        // Will be dynamic base on current Motivational Quote provided
-        val welcomeMessage = findViewById<TextView>(R.id.mainWelcomeMessage)
-        welcomeMessage.text = welcomeName
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        loggedIn()
 
         // link set new goals button
         val newGoals = findViewById<Button>(R.id.mainSetGoalsBtn)
@@ -66,6 +76,7 @@ class Main : AppCompatActivity() {
                 }
                 R.id.navSignOut -> {
                     Snackbar.make(findViewById(R.id.navSignOut), "Do you want to Sign out?",Snackbar.LENGTH_LONG).show()
+                    Firebase.auth.signOut()
                     loginActivity(R.layout.activity_login)
 
                 }
@@ -124,10 +135,27 @@ class Main : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Get access to passed intent
-    private fun getAccessToCurrentUser(): Client {
+    private fun loggedIn(){
+        // Access Database
+        database = Firebase.database.reference.child("users").child(firebaseUser!!.uid)
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                currentUser = dataSnapshot.getValue<Client?>()
 
-        return intent.extras?.get("currentUser") as Client
+                // This value will be dynamic based on the user logged in
+                val welcomeName = "Welcome, ${currentUser?.firstname}"
 
+                // Will be dynamic base on current Motivational Quote provided
+                val welcomeMessage = findViewById<TextView>(R.id.mainWelcomeMessage)
+                welcomeMessage.text = welcomeName
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        database.addValueEventListener(postListener)
     }
 }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -21,10 +22,6 @@ import com.google.firebase.ktx.Firebase
 
 
 class Login : AppCompatActivity() {
-    private var currentUser : Client? = null
-    private var firebaseUser : FirebaseUser? = null
-    private lateinit var database: DatabaseReference
-    private lateinit var databaseValues : ArrayList<Client?>
     private lateinit var auth: FirebaseAuth
     private lateinit var signIn: Button
     private lateinit var createAccount: Button
@@ -38,15 +35,11 @@ class Login : AppCompatActivity() {
         // Set title of page to Login
         title = "Login"
 
-        firebaseUser = FirebaseAuth.getInstance().currentUser
-
         // Access Authentication
         auth = FirebaseAuth.getInstance()
 
         // OnClick functionality to login
         onClick()
-
-        loggedIn()
     }
 
     // Custom details for logging in to firebase
@@ -114,25 +107,6 @@ class Login : AppCompatActivity() {
         }
     }
 
-    private fun loggedIn(){
-        // Access Database
-        database = Firebase.database.reference.child("users").child(firebaseUser!!.uid)
-        databaseValues = ArrayList()
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                var obj : Client? = dataSnapshot.getValue<Client?>()
-                databaseValues.add(obj)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-            }
-        }
-        database.addValueEventListener(postListener)
-    }
-
     // Intent that will open create user activity when activated
     private fun createNameActivity(view: Int){
         val intent = Intent(this, CreateUserName::class.java).apply {
@@ -142,12 +116,6 @@ class Login : AppCompatActivity() {
 
     private fun loggedInToMain(view : Int) {
         val intent = Intent(this, Main::class.java)
-        for (users in databaseValues){
-            if (users?.email == email.text.toString()){
-                currentUser = users
-            }
-        }
-        intent.putExtra("currentUser", currentUser)
         startActivity(intent)
     }
 }

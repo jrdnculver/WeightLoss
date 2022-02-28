@@ -109,7 +109,6 @@ class CreateUserCredentials : AppCompatActivity() {
                 if (mail.isEmail){
                     creatingUser.email = emails.trim()
                     creatingUser.password = passwords.trim()
-                    creatingUser.username = usernames.trim()
 
                     // If text are not null, create new account
                     auth.createUserWithEmailAndPassword(emails, passwords)
@@ -118,8 +117,8 @@ class CreateUserCredentials : AppCompatActivity() {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success")
                             // Save User
-                            writeNewUser(creatingUser.username, creatingUser.firstname, creatingUser.lastname, creatingUser.address, creatingUser.email, creatingUser.phone,
-                                        creatingUser.isAdmin)
+                            writeNewUser(creatingUser.firstname, creatingUser.lastname, creatingUser.address, creatingUser.email, creatingUser.phone,
+                                        creatingUser.birthday, creatingUser.isAdmin)
                             // Return to login page after account created
                             finishedCreatedActivity(R.layout.activity_login)
                         } else {
@@ -158,15 +157,15 @@ class CreateUserCredentials : AppCompatActivity() {
 
     // Class constructor for data input for new Account creation
     @IgnoreExtraProperties
-    data class SaveUser(val username : String?, val firstname: String? = null, val lastname: String? = null, val address : String? = null,
-        val email : String? = null, val phone : String? = null, val isAdmin : Boolean = false ) {
+    data class SaveUser(val firstname: String? = null, val lastname: String? = null, val address : String? = null,
+        val email : String? = null, val phone : String? = null, val birthday : String?, val isAdmin : Boolean = false ) {
         // Null default values create a no-argument default constructor, which is needed
         // for deserialization from a DataSnapshot.
     }
 
     // Write new Account to database with username as userId
-    fun writeNewUser(username : String, firstname: String, lastname: String, address: String, email : String, phone: String, isAdmin: Boolean) {
-        val user = SaveUser(username, firstname, lastname, address, email, phone, isAdmin)
+    fun writeNewUser(firstname: String, lastname: String, address: String, email : String, phone: String, birthday : String, isAdmin: Boolean) {
+        val user = SaveUser(firstname, lastname, address, email, phone, birthday, isAdmin)
 
         database.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).setValue(user)
     }

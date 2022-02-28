@@ -6,6 +6,6 @@ class Date {
     var year : String = String()
 
     fun birthdayToString(birthday : Date) : String{
-        return String.format("${month + 1} / $day / $year")
+        return String.format("${month + 1}/$day/$year")
     }
 }
