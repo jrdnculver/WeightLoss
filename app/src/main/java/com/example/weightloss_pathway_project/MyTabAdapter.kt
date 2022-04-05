@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 internal class MyTabAdapter(
     var context: Context,
     fm: FragmentManager,
-    var totalTabs: Int
+    private var totalTabs: Int
 ) :
     // Calls the fragment when the tab is pressed
     FragmentPagerAdapter(fm) {

@@ -1,8 +1,13 @@
 package com.example.weightloss_pathway_project
 
-class NutritionalGoals {
-    var proteinServings : String = String()
-    var grainServings : String = String()
-    var vegetableServings : String = String()
-    var fruitServings : String = String()
+import java.io.Serializable
+
+class NutritionalGoals : Serializable{
+    var nutritionalGoal : String = String()
+    var dayOfWeek : String = String()
+    var date : String = String()
+
+    fun goalToString() : String{
+        return String.format("$nutritionalGoal")
+    }
 }

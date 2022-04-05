@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.228" />
 
     <EditText
-        android:id="@+id/weeklyProteinGoalsTxt"
+        android:id="@+id/nutritionGoal1Txt"
         android:layout_width="375dp"
         android:layout_height="48dp"
         android:autofillHints=""
@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.297" />
 
     <EditText
-        android:id="@+id/weeklyVegetableGoalsTxt"
+        android:id="@+id/nutritionGoal3Txt"
         android:layout_width="375dp"
         android:layout_height="48dp"
         android:autofillHints=""
@@ -86,7 +86,7 @@
         app:layout_constraintVertical_bias="0.461" />
 
     <EditText
-        android:id="@+id/weeklyFruitGoalsTxt"
+        android:id="@+id/nutritionGoal4Txt"
         android:layout_width="375dp"
         android:layout_height="48dp"
         android:autofillHints=""
@@ -104,7 +104,7 @@
         app:layout_constraintVertical_bias="0.541" />
 
     <EditText
-        android:id="@+id/weeklyGrainGoalsTxt"
+        android:id="@+id/nutritionGoal2Txt"
         android:layout_width="375dp"
         android:layout_height="48dp"
         android:autofillHints=""
@@ -189,7 +189,7 @@
         app:layout_constraintVertical_bias="0.778" />
 
     <EditText
-        android:id="@+id/weeklyTabDateBtn"
+        android:id="@+id/weeklyTabDateTxt"
         android:layout_width="306dp"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
@@ -214,7 +214,7 @@
         app:layout_constraintVertical_bias="0.118" />
 
     <Button
-        android:id="@+id/weeklyTabChooseDateBtn"
+        android:id="@+id/weeklyTabDateBtn"
         android:layout_width="61dp"
         android:layout_height="66dp"
         android:layout_alignParentTop="true"

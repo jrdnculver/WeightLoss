@@ -28,7 +28,6 @@ class Main : AppCompatActivity() {
     private var currentUser : Client? = null
     private var firebaseUser : FirebaseUser? = null
     private lateinit var database: DatabaseReference
-    private lateinit var databaseValues : ArrayList<Client?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,7 +136,7 @@ class Main : AppCompatActivity() {
 
     private fun loggedIn(){
         // Access Database
-        database = Firebase.database.reference.child("users").child(firebaseUser!!.uid)
+        database = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("account")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI

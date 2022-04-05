@@ -9,7 +9,6 @@ open class Account : Serializable{
     var email : String = String()
     var phone : String = String()
     var birthday : String = String()
-    var username : String = String()
     var password : String = String()
 
     fun checkName(first: String) : String {
