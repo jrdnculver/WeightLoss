@@ -2,6 +2,7 @@ package com.example.weightloss_pathway_project
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import java.time.LocalDate
 import java.util.*
 
 
@@ -32,6 +34,12 @@ class WeeklyTab : AppCompatActivity() {
         initialize()
         onClick()
         initializeFragment()
+        if(dateSelection.text.toString() == ""){
+            dateSelection.text = getCurrentDay().toString()
+            Handler().postDelayed({
+                setTabs()
+            }, 1000)
+        }
     }
 
     private fun initialize() {
@@ -99,61 +107,7 @@ class WeeklyTab : AppCompatActivity() {
         }
 
         submit.setOnClickListener{
-            val da = DayOfWeek()
-            val sunday = da.findDayOfWeek(dateSelection.text.toString())
-            Log.e("Value", sunday)
-
-            val sun = Sunday()
-            val bunSun = Bundle()
-            bunSun.putString("date", sunday)
-            sun.arguments = bunSun
-            supportFragmentManager.beginTransaction().replace(R.id.fragSunday, sun).commit()
-
-            val mon = Monday()
-            val bunMon = Bundle()
-            val monday = da.nextDay(sunday)
-            bunMon.putString("date", monday)
-            mon.arguments = bunMon
-            supportFragmentManager.beginTransaction().replace(R.id.fragMonday, mon).commit()
-
-            val tue = Tuesday()
-            val bunTue = Bundle()
-            val tuesday = da.nextDay(monday)
-            bunTue.putString("date", tuesday)
-            tue.arguments = bunTue
-            supportFragmentManager.beginTransaction().replace(R.id.fragTuesday, tue).commit()
-
-            val wed = Wednesday()
-            val bunWed = Bundle()
-            val wednesday = da.nextDay(tuesday)
-            bunWed.putString("date", wednesday)
-            wed.arguments = bunWed
-            supportFragmentManager.beginTransaction().replace(R.id.fragWednesday, wed).commit()
-
-            val thu = Thursday()
-            val bunThu = Bundle()
-            val thursday = da.nextDay(wednesday)
-            bunThu.putString("date", thursday)
-            thu.arguments = bunThu
-            supportFragmentManager.beginTransaction().replace(R.id.fragThursday, thu).commit()
-
-            val fri = Friday()
-            val bunFri = Bundle()
-            val friday = da.nextDay(thursday)
-            bunFri.putString("date", friday)
-            fri.arguments = bunFri
-            supportFragmentManager.beginTransaction().replace(R.id.fragFriday, fri).commit()
-
-            val sat = Saturday()
-            val bunSat = Bundle()
-            val saturday = da.nextDay(friday)
-            bunSat.putString("date", saturday)
-            sat.arguments = bunSat
-            supportFragmentManager.beginTransaction().replace(R.id.fragSaturday, sat).commit()
-
-            val d = Date()
-            val index = d.dayToNumber(getDay())
-            selectPage(index)
+            setTabs()
         }
 
     }
@@ -166,5 +120,82 @@ class WeeklyTab : AppCompatActivity() {
     fun getDay() : String{
         var splitDate = dateSelection.text.toString().replace(",", "").split(" ")
         return splitDate[3]
+    }
+
+    fun getCurrentDay() : String{
+        val calendar = Calendar.getInstance()
+        val day = calendar[Calendar.DAY_OF_WEEK]
+        Log.e("Day", "$day")
+
+        val date = LocalDate.now()
+        val d = Date()
+        val dateSplit = date.toString().split(("-"))
+        val month = d.monthToString(dateSplit[1].toInt())
+        val dae = dateSplit[2].toInt().toString()
+        val year = dateSplit[0].toInt().toString()
+        val weekDay = d.dayToString(day - 1)
+
+        return "$month $dae, $year, $weekDay"
+
+
+
+    }
+
+    fun setTabs(){
+        val da = DayOfWeek()
+        val sunday = da.findDayOfWeek(dateSelection.text.toString())
+        Log.e("Value", sunday)
+
+        val sun = Sunday()
+        val bunSun = Bundle()
+        bunSun.putString("date", sunday)
+        sun.arguments = bunSun
+        supportFragmentManager.beginTransaction().replace(R.id.fragSunday, sun).commit()
+
+        val mon = Monday()
+        val bunMon = Bundle()
+        val monday = da.nextDay(sunday)
+        bunMon.putString("date", monday)
+        mon.arguments = bunMon
+        supportFragmentManager.beginTransaction().replace(R.id.fragMonday, mon).commit()
+
+        val tue = Tuesday()
+        val bunTue = Bundle()
+        val tuesday = da.nextDay(monday)
+        bunTue.putString("date", tuesday)
+        tue.arguments = bunTue
+        supportFragmentManager.beginTransaction().replace(R.id.fragTuesday, tue).commit()
+
+        val wed = Wednesday()
+        val bunWed = Bundle()
+        val wednesday = da.nextDay(tuesday)
+        bunWed.putString("date", wednesday)
+        wed.arguments = bunWed
+        supportFragmentManager.beginTransaction().replace(R.id.fragWednesday, wed).commit()
+
+        val thu = Thursday()
+        val bunThu = Bundle()
+        val thursday = da.nextDay(wednesday)
+        bunThu.putString("date", thursday)
+        thu.arguments = bunThu
+        supportFragmentManager.beginTransaction().replace(R.id.fragThursday, thu).commit()
+
+        val fri = Friday()
+        val bunFri = Bundle()
+        val friday = da.nextDay(thursday)
+        bunFri.putString("date", friday)
+        fri.arguments = bunFri
+        supportFragmentManager.beginTransaction().replace(R.id.fragFriday, fri).commit()
+
+        val sat = Saturday()
+        val bunSat = Bundle()
+        val saturday = da.nextDay(friday)
+        bunSat.putString("date", saturday)
+        sat.arguments = bunSat
+        supportFragmentManager.beginTransaction().replace(R.id.fragSaturday, sat).commit()
+
+        val d = Date()
+        val index = d.dayToNumber(getDay())
+        selectPage(index)
     }
 }
