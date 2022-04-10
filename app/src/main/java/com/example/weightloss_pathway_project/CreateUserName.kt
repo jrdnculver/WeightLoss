@@ -43,12 +43,12 @@ class CreateUserName : AppCompatActivity() {
 
     // Instantiates object from XML
     private fun instantiate(){
-        firstname = findViewById<TextView>(R.id.createUserFirstNameTxt)
-        lastname = findViewById<TextView>(R.id.createUserLastNameTxt)
-        dateSelection = findViewById<TextView>(R.id.createUserBirthTxt)
-        dateBtn = findViewById<Button>(R.id.createUserBirthBtn)
-        next = findViewById<Button>(R.id.createUserNameNextBtn)
-        cancel = findViewById<Button>(R.id.createUserCancelBtn)
+        firstname = findViewById(R.id.createUserFirstNameTxt)
+        lastname = findViewById(R.id.createUserLastNameTxt)
+        dateSelection = findViewById(R.id.createUserBirthTxt)
+        dateBtn = findViewById(R.id.createUserBirthBtn)
+        next = findViewById(R.id.createUserNameNextBtn)
+        cancel = findViewById(R.id.createUserCancelBtn)
     }
 
     // Will handle onClick functionality
@@ -77,11 +77,11 @@ class CreateUserName : AppCompatActivity() {
 
                 var first = firstname.text.toString()
                 // Valid and assign first name
-                val validFirstName = creatingUser.checkName(firstname.text.toString())
+                val validFirstName = creatingUser.checkName(firstname.text.toString().trim())
                 creatingUser.firstname = validFirstName
 
                 // Valid and assign last name
-                val validLastName = creatingUser.checkName(lastname.text.toString())
+                val validLastName = creatingUser.checkName(lastname.text.toString().trim())
                 creatingUser.lastname = validLastName
 //                // Valid and assign date
 //                val validMonth = creatingUser.checkMonth(dateSelection.text.toString())
@@ -93,7 +93,7 @@ class CreateUserName : AppCompatActivity() {
 //                birthday.month = validMonth.trim()
 //                birthday.day = validDay.trim()
 //                birthday.year = validYear.trim()
-                creatingUser.birthday = dateSelection.text.toString()
+                creatingUser.birthday = dateSelection.text.toString().trim()
 
 
                 contactInfoActivity(R.layout.activity_create_user_contact_info)

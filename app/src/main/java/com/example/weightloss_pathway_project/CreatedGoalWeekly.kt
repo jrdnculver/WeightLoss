@@ -1,6 +1,7 @@
 package com.example.weightloss_pathway_project
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,12 +11,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_weekly.*
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Weekly : AppCompatActivity() {
+class CreatedGoalWeekly : AppCompatActivity() {
     private lateinit var modeSelection : String
     private lateinit var intensitySelecion : String
     private lateinit var durationSelection : String
@@ -35,10 +35,12 @@ class Weekly : AppCompatActivity() {
     private lateinit var dateSelection: TextView
     private lateinit var date : Button
     private lateinit var dayOfWeek : String
+    private lateinit var newFitGoal : FitnessGoals
+    private lateinit var newNutGoal : NutritionalGoals
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_weekly)
+        setContentView(R.layout.activity_created_goal_weekly)
         title = "Set Goals"
 
         database = Firebase.database.reference
@@ -61,8 +63,12 @@ class Weekly : AppCompatActivity() {
         nutritionGoal4 = findViewById(R.id.nutritionGoal4Txt)
         dateSelection = findViewById(R.id.weeklyTabDateTxt)
         date = findViewById(R.id.weeklyTabDateBtn)
+        newFitGoal = FitnessGoals()
+        newNutGoal = NutritionalGoals()
+        dayOfWeek = String()
+        database = database.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).child("clientGoals")
 
-        modes = ArrayList(mutableListOf("Mode"))
+        modes = ArrayList(mutableListOf("Cycling", "Running", "Treadmill", "Gym"))
         intensities = ArrayList(mutableListOf("Intensity", "Low", "Moderate", "High"))
         durations = ArrayList(mutableListOf("Duration", "10", "20", "30", "40", "50", "60", "70", "80", "90"))
     }
@@ -123,6 +129,7 @@ class Weekly : AppCompatActivity() {
         }
     }
 
+    // Functions for onClick methods
     private fun onClick() {
         submit.setOnClickListener() {
             val iteratedGoals = ArrayList<TextView>(
@@ -134,15 +141,18 @@ class Weekly : AppCompatActivity() {
                 )
             )
             val addedGoals = ArrayList<String>()
+
+            newFitGoal.mode = modeSelection
+            newFitGoal.intensity = intensitySelecion
+            newFitGoal.duration = durationSelection
+            newFitGoal.goal = newFitGoal.goalString()
+            newFitGoal.dow = dayOfWeek
+            newFitGoal.date = dateSelection.text.toString()
             try {
                 if (modeSelection.isNotEmpty() && durationSelection.isNotEmpty() && intensitySelecion.isNotEmpty()) {
-                    writeNewFitnessGoal(
-                        modeSelection,
-                        durationSelection,
-                        intensitySelecion,
-                        dateSelection.text.toString(),
-                        dayOfWeek
-                    )
+                    if (modeSelection != "Mode" && durationSelection != "Duration" && intensitySelecion != "Intensity"){
+                        writeNewFitnessGoal()
+                    }
                 }
 
                 for (goalValue: TextView in iteratedGoals) {
@@ -152,10 +162,15 @@ class Weekly : AppCompatActivity() {
                 }
 
                 for (goalValue: String in addedGoals) {
-                    writeNewNutritionGoal(goalValue, dateSelection.text.toString(), dayOfWeek)
+                    newNutGoal.goal = goalValue.trim()
+                    newNutGoal.date = dateSelection.text.toString().trim()
+                    newNutGoal.dow = dayOfWeek.trim()
+                    writeNewNutritionGoal()
                 }
 
                 Toast.makeText(this, "Goal Created Successfully", Toast.LENGTH_SHORT).show()
+                selectGoalActivity(R.layout.activity_selected_goal_weekly)
+
             } catch (e: Exception) {
                 Toast.makeText(this, "Error Creating Goal", Toast.LENGTH_SHORT).show()
             }
@@ -189,29 +204,20 @@ class Weekly : AppCompatActivity() {
         }
     }
 
-
-    // Class constructor for data input for new Account creation
-    @IgnoreExtraProperties
-    data class SaveFitnessGoal(val mode: String? = null, val duration: String? = null, val intensity: String? = null, val date : String? = null, val dow : String? ) {
-        // Null default values create a no-argument default constructor, which is needed
+    // Write new Account to database with username as userId
+    fun writeNewFitnessGoal(){
+        database.push().setValue(newFitGoal)
     }
 
     // Write new Account to database with username as userId
-    fun writeNewFitnessGoal(mode: String?, duration: String?, intensity: String?, date: String?, dow : String?){
-        val goal = SaveFitnessGoal(mode, duration, intensity, date, dow)
-        database.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).child("fitness").push().setValue(goal)
+    fun writeNewNutritionGoal(){
+        database.push().setValue(newNutGoal)
     }
 
-    // Class constructor for data input for new Account creation
-    @IgnoreExtraProperties
-    data class SaveNutritionGoal(val nutritionalGoal: String? = null, val date : String? = null, val dow: String? ) {
-        // Null default values create a no-argument default constructor, which is needed
-    }
-
-    // Write new Account to database with username as userId
-    fun writeNewNutritionGoal(nutritionalGoal: String?, date: String?, dow: String?){
-        val newGoal = SaveNutritionGoal(nutritionalGoal, date, dow)
-        database.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).child("nutrition").push().setValue(newGoal)
+    // Intent that will open PlanningGoals activity when activated
+    private fun selectGoalActivity(view: Int){
+        val intent = Intent(this, SelectedGoalWeekly::class.java)
+        startActivity(intent)
     }
 
 }

@@ -42,7 +42,7 @@ class Main : AppCompatActivity() {
 
         // create action when newGoals button pressed
         newGoals.setOnClickListener{
-            setWeeklyActivity(R.layout.activity_weekly)
+            setWeeklyActivity(R.layout.activity_created_goal_weekly)
         }
 
         // gets id's of UI components for modification
@@ -100,7 +100,7 @@ class Main : AppCompatActivity() {
 
     // Intent that will open weekly activity when activated
     private fun setWeeklyActivity(view: Int){
-        val intent = Intent(this, Weekly::class.java)
+        val intent = Intent(this, SelectedGoalWeekly::class.java)
         startActivity(intent)
     }
 

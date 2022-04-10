@@ -75,7 +75,7 @@
     <string name="aboutBrookeHours">"Monday - Thursday            7 am - 4 pm   CST Friday                      7 am - Noon    CST            Contact Brooke for additional hours or one on one training and coaching sessions." </string>
     <string name="aboutBrookeImgDesc">"Picture of Brooke" </string>
     <!-- weekly -->
-    <string name="weeklyWelcome">"%s Daily Goals" </string>
+    <string name="weeklyWelcome">"Client Personal Goals" </string>
     <string name="weeklyNutritionalHeader">"Nutritional Goals" </string>
     <string name="weeklyFitnessHeader">"Fitness Goals" </string>
     <string name="weeklyGoalOne">"Goal 1" </string>
@@ -107,4 +107,14 @@
     <string name="weeklyTabFloating">"Mail floating action button"</string>
     <string name="weeklyTabDateTxt">"Date Selection"</string>
     <string name="weeklyTabSubmit">"Submit"</string>
+    <!-- GoalsWeekly -->
+    <string name="personalizeGoalWeekly">Personal Goal</string>
+    <string name="personalizeGoalWeeklyBack">Back</string>
+    <string name="personalizeGoalWeeklyViewGoals">Update Goals</string>
+    <!-- PlanningGoals -->
+    <string name="planToComplete">How will you complete this goal?</string>
+    <string name="planToOvercome">How will you overcome any obstacles?</string>
+    <string name="Overcome">Overcoming</string>
+    <string name="Complete">Complete</string>
+    <string name="planGoal">Add Plan</string>
 </resources>

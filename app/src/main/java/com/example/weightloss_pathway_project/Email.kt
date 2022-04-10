@@ -6,6 +6,7 @@ class Email {
     var userEmail : String = String()
     var isEmail : Boolean = false
 
+    // Check for valid email
     fun isValidEmail(email: String): Boolean {
         val EMAIL_STRING = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")

@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Weekly">
+    tools:context=".CreatedGoalWeekly">
 
     <Button
         android:id="@+id/weeklySubmitBtn"
         android:layout_width="127dp"
         android:layout_height="53dp"
-        android:backgroundTint="#FF018786"
         android:text="@string/weeklySubmit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,8 +23,7 @@
         android:id="@+id/weeklyMenuBtn"
         android:layout_width="127dp"
         android:layout_height="53dp"
-        android:backgroundTint="#FF018786"
-        android:text="@string/weeklyMenu"
+        android:text="@string/personalizeGoalWeeklyBack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.151"
@@ -143,7 +141,6 @@
         android:text="@string/weeklyWelcome"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textColor="#A1887F"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -124,16 +124,16 @@ class CreateUserContactInfo : AppCompatActivity() {
                 val address : Address = Address()
                 val number : Phone = Phone()
 
-                address.street = street.text.toString()
-                address.city = city.text.toString()
+                address.street = street.text.toString().trim()
+                address.city = city.text.toString().trim()
                 address.state = stateSelection
-                address.zip = zip.text.toString()
-                val location = address.addressToDatabaseFire()
+                address.zip = zip.text.toString().trim()
+                val location = address.addressToDatabaseFire().trim()
                 creatingUser.address = location
 
 
-                number.phoneBreakDown(phone.text.toString())
-                number.phoneNumber = number.phoneToDatabaseFire()
+                number.phoneBreakDown(phone.text.toString().trim())
+                number.phoneNumber = number.phoneToDatabaseFire().trim()
 
                 creatingUser.phone = number.phoneNumber
 

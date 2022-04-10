@@ -1,6 +1,7 @@
 package com.example.weightloss_pathway_project
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -24,6 +25,7 @@ class WeeklyTab : AppCompatActivity() {
     private var firebaseUser : FirebaseUser? = null
     private lateinit var submit : Button
     private lateinit var date: Button
+    private lateinit var back : Button
     private val TAG = "MyValue"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +60,7 @@ class WeeklyTab : AppCompatActivity() {
         date = findViewById(R.id.weeklyTabDateBtn)
         submit = findViewById(R.id.weeklyTabDateSubmitBtn)
         firebaseUser = FirebaseAuth.getInstance().currentUser
+        back = findViewById(R.id.weeklyTabBackBtn)
     }
 
     private fun initializeFragment() {
@@ -110,6 +113,10 @@ class WeeklyTab : AppCompatActivity() {
             setTabs()
         }
 
+        back.setOnClickListener(){
+            mainActivity(R.layout.activity_main)
+        }
+
     }
 
     fun selectPage(pageIndex: Int) {
@@ -136,9 +143,6 @@ class WeeklyTab : AppCompatActivity() {
         val weekDay = d.dayToString(day - 1)
 
         return "$month $dae, $year, $weekDay"
-
-
-
     }
 
     fun setTabs(){
@@ -197,5 +201,10 @@ class WeeklyTab : AppCompatActivity() {
         val d = Date()
         val index = d.dayToNumber(getDay())
         selectPage(index)
+    }
+
+    private fun mainActivity(view : Int) {
+        val intent = Intent(this, Main::class.java)
+        startActivity(intent)
     }
 }

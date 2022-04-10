@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeightLoss_Pathway_project">
         <activity
+            android:name=".PlannedView"
+            android:exported="false" />
+        <activity
+            android:name=".PlanningGoals"
+            android:exported="false" />
+        <activity
+            android:name=".SelectedGoalWeekly"
+            android:exported="false" />
+        <activity
             android:name=".Help"
             android:exported="false" />
         <activity
@@ -39,7 +48,7 @@
             android:name=".Settings"
             android:exported="false" />
         <activity
-            android:name=".Weekly"
+            android:name=".CreatedGoalWeekly"
             android:exported="false"
             android:label="@string/title_activity_weekly"
             android:theme="@style/Theme.WeightLoss_Pathway_project.NoActionBar" />

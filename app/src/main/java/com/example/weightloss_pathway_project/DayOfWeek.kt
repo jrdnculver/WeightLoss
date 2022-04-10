@@ -48,6 +48,7 @@ class DayOfWeek {
         } else return (day[total % 7])
     }
 
+    // Find day of the week
     fun findDayOfWeek(date: String): String {
         var splitDate = date.replace(",", "").split(" ")
         var dates = Date()
@@ -63,6 +64,7 @@ class DayOfWeek {
         return value
     }
 
+    // Find Sunday of the week selected
     fun getSunday(date: Date): String {
 
         var dayValue = when (date.numDayOfWeek) {
@@ -92,6 +94,7 @@ class DayOfWeek {
         return "${date.monthToString(date.numMonth)} ${date.day}, ${date.year}, Sunday"
     }
 
+    // Find next day relative to other date
     fun nextDay(date: String): String {
         var splitDate = date.replace(",", "").split(" ")
         var dates = Date()

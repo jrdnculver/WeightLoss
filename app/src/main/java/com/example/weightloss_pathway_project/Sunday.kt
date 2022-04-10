@@ -1,7 +1,9 @@
 package com.example.weightloss_pathway_project
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,17 +18,16 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import java.lang.Exception
 
 
 class Sunday : Fragment() {
     private lateinit var dateString : String
     private lateinit var goalList : ArrayList<String>
-    private lateinit var nutritionDatabase: DatabaseReference
-    private lateinit var fitnessDatabase: DatabaseReference
+    private lateinit var plannedDatabase: DatabaseReference
     private var firebaseUser : FirebaseUser? = null
     private var currentNutritionalGoals: ArrayList<NutritionalGoals>? = null
     private var currentFitnessGoals: ArrayList<FitnessGoals>? = null
+    private var currentPlannedGoals: ArrayList<DefinedGoal>? = null
     private lateinit var list : ListView
 
     override fun onCreateView(
@@ -52,10 +53,10 @@ class Sunday : Fragment() {
         dateString = String()
         goalList = ArrayList()
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        nutritionDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("nutrition")
-        fitnessDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("fitness")
+        plannedDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("plannedGoals")
         currentFitnessGoals = ArrayList()
         currentNutritionalGoals = ArrayList()
+        currentPlannedGoals = ArrayList()
 
         try{
             // Set the date
@@ -76,36 +77,22 @@ class Sunday : Fragment() {
     // Query occurs asynchronously and requires downhill listview setting within function
     private fun gettingGoals(){
         // Access Database
-        var newNut = NutritionalGoals()
-        var newFit = FitnessGoals()
-        val postListener = object : ValueEventListener {
+        var newPlan = DefinedGoal()
+
+        val postListener2 = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
                 for (dataSnapShot in dataSnapshot.children) {
-                    newNut = dataSnapShot.getValue<NutritionalGoals>()!!
-                    currentNutritionalGoals?.add(newNut)
+                    newPlan = dataSnapShot.getValue<DefinedGoal>()!!
+                    currentPlannedGoals?.add(newPlan)
                 }
-                createNutritionalGoals()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
-            }
-        }
-        nutritionDatabase.addValueEventListener(postListener)
-
-        val postListener1 = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                for (dataSnapShot in dataSnapshot.children) {
-                    newFit = dataSnapShot.getValue<FitnessGoals>()!!
-                    currentFitnessGoals?.add(newFit)
-                }
-                createFitnessGoals()
+                //createFitnessGoals()
+                createPlannedGoals()
 
                 // Will set listview values here
-                setListView()
+                Handler().postDelayed({
+                    setListView()
+                }, 1000)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -113,7 +100,7 @@ class Sunday : Fragment() {
                 Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-        fitnessDatabase.addValueEventListener((postListener1))
+        plannedDatabase.addValueEventListener((postListener2))
     }
 
     // creates listview occurrence for date
@@ -123,23 +110,12 @@ class Sunday : Fragment() {
         }
     }
 
-    // creates nutrition goal and adds to list for listview occurrence
-    fun createNutritionalGoals() {
-        if (currentNutritionalGoals != null) {
-            for (item: NutritionalGoals in currentNutritionalGoals!!) {
-                if (item.date == dateString) {
-                    goalList.add(item.nutritionalGoal)
-                }
-            }
-        }
-    }
-
     // creates fitness goal and adds to list for listview occurrence
-    fun createFitnessGoals() {
-        if (currentFitnessGoals != null) {
-            for (item: FitnessGoals in currentFitnessGoals!!) {
+    fun createPlannedGoals() {
+        if (currentPlannedGoals != null) {
+            for (item: DefinedGoal in currentPlannedGoals!!) {
                 if (item.date == dateString) {
-                    goalList.add(item.goalString())
+                    goalList.add(item.goal)
                 }
             }
         }
@@ -158,7 +134,18 @@ class Sunday : Fragment() {
         list.onItemClickListener =
             OnItemClickListener { _, _, position, _ ->
                 val clickedItem = list.getItemAtPosition(position) as String
-                //Toast.makeText(this@MainActivity, clickedItem, Toast.LENGTH_LONG).show()
+                for (item : DefinedGoal in currentPlannedGoals!!){
+                    if (clickedItem == item.goal){
+                        planActivity(R.layout.activity_planned_view, item)
+                    }
+                }
             }
+    }
+
+    // Intent that will open PlanningGoals activity when activated
+    private fun planActivity(view: Int, definedGoal : DefinedGoal){
+        val intent = Intent(activity, PlannedView::class.java)
+        intent.putExtra("viewGoal", definedGoal)
+        requireActivity().startActivity(intent)
     }
 }

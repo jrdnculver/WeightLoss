@@ -68,7 +68,6 @@ class CreateUserCredentials : AppCompatActivity() {
     // Access Intent object from previous activity
     private fun getAccessToCurrentUser(): Client {
         return intent.extras?.get("user") as Client
-
     }
 
     // Instantiate object from XML
@@ -89,8 +88,8 @@ class CreateUserCredentials : AppCompatActivity() {
         // create action when finish button pressed
         finish.setOnClickListener{
             // Turn values to string for creating user function in firebase
-            val emails = email.text.toString()
-            val passwords = password.text.toString()
+            val emails = email.text.toString().trim()
+            val passwords = password.text.toString().trim()
 
             if (email.text.isEmpty()){
                 Toast.makeText(this, "Enter Valid Email", Toast.LENGTH_SHORT).show()
