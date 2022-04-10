@@ -31,7 +31,7 @@ class CreatedGoalWeekly : AppCompatActivity() {
     private lateinit var durations : ArrayList<String>
     private lateinit var database: DatabaseReference
     private lateinit var submit: Button
-    private lateinit var menu: Button
+    private lateinit var back: Button
     private lateinit var dateSelection: TextView
     private lateinit var date : Button
     private lateinit var dayOfWeek : String
@@ -53,7 +53,7 @@ class CreatedGoalWeekly : AppCompatActivity() {
     // Instantiate objects from XML and list
     private fun instantiate(){
         submit = findViewById(R.id.weeklySubmitBtn)
-        menu = findViewById(R.id.weeklyMenuBtn)
+        back = findViewById(R.id.weeklyMenuBtn)
         mode = findViewById(R.id.weeklyModeSpinner)
         intensity = findViewById(R.id.weeklyIntensitySpinner)
         duration = findViewById(R.id.weeklyDurationSpinner)
@@ -202,6 +202,10 @@ class CreatedGoalWeekly : AppCompatActivity() {
                 )
             myDatePicker.show()
         }
+
+        back.setOnClickListener{
+            selectGoalActivity(R.layout.activity_selected_goal_weekly)
+        }
     }
 
     // Write new Account to database with username as userId
@@ -219,5 +223,4 @@ class CreatedGoalWeekly : AppCompatActivity() {
         val intent = Intent(this, SelectedGoalWeekly::class.java)
         startActivity(intent)
     }
-
 }
