@@ -2,12 +2,11 @@ package com.example.weightloss_pathway_project
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import org.w3c.dom.Text
 import java.util.*
 
 class CreateUserName : AppCompatActivity() {
@@ -74,8 +73,6 @@ class CreateUserName : AppCompatActivity() {
                     Snackbar.LENGTH_LONG
                 ).show()
             } else {
-
-                var first = firstname.text.toString()
                 // Valid and assign first name
                 val validFirstName = creatingUser.checkName(firstname.text.toString().trim())
                 creatingUser.firstname = validFirstName
@@ -83,20 +80,16 @@ class CreateUserName : AppCompatActivity() {
                 // Valid and assign last name
                 val validLastName = creatingUser.checkName(lastname.text.toString().trim())
                 creatingUser.lastname = validLastName
-//                // Valid and assign date
-//                val validMonth = creatingUser.checkMonth(dateSelection.text.toString())
-//                val validDay = creatingUser.checkDay(dateSelection.text.toString())
-//                val validYear = creatingUser.checkYear(dateSelection.text.toString())
-
-                // Assign valid date values to user account
-//                val birthday: Date = Date()
-//                birthday.month = validMonth.trim()
-//                birthday.day = validDay.trim()
-//                birthday.year = validYear.trim()
+                // Valid and assign date
                 creatingUser.birthday = dateSelection.text.toString().trim()
 
+                val snackbar: Snackbar = Snackbar
+                    .make(findViewById(R.id.createUserNameNextBtn), "Is your information correct?", Snackbar.LENGTH_LONG)
+                snackbar.setAction("YES"){
+                    contactInfoActivity(R.layout.activity_create_user_contact_info)
+                }
 
-                contactInfoActivity(R.layout.activity_create_user_contact_info)
+                snackbar.show()
             }
 
         }
@@ -107,8 +100,8 @@ class CreateUserName : AppCompatActivity() {
         }
 
         // Access Calendar to select and format birthdate
-        val DOW = DayOfWeek()
-        val DATE = Date()
+        val dOW = DayOfWeek()
+        val dates = Date()
         dateBtn.setOnClickListener {
             val c = Calendar.getInstance()
             val day = c.get(Calendar.DAY_OF_MONTH)
@@ -120,11 +113,11 @@ class CreateUserName : AppCompatActivity() {
                     this,
                     android.R.style.ThemeOverlay,
                     { _, Year, Month, Day ->
-                        DOW.dd = Day
-                        DOW.mm = Month + 1
-                        DOW.yyyy = Year
-                        dateSelection.text =
-                            "${DATE.monthToString(Month + 1)} $Day, $Year"
+                        dOW.dd = Day
+                        dOW.mm = Month + 1
+                        dOW.yyyy = Year
+                        val d = "${dates.monthToString(Month + 1)} $Day, $Year"
+                        dateSelection.text = d
                     },
                     year,
                     month,

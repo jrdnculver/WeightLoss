@@ -1,15 +1,27 @@
 package com.example.weightloss_pathway_project
 
+import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.Button
 import android.widget.MultiAutoCompleteTextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 class PlanningGoals : AppCompatActivity() {
@@ -20,13 +32,19 @@ class PlanningGoals : AppCompatActivity() {
     private lateinit var selectedGoal : DefinedGoal
     private var firebaseUser : FirebaseUser? = null
     private lateinit var database: DatabaseReference
+    private lateinit var colar : String
+    private lateinit var colorDatabase: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_planning_goals)
+        getColor()
+        modifyTheme()
+        Handler(Looper.getMainLooper()).postDelayed({
+            setContentView(R.layout.activity_planning_goals)
 
-        initialize()
-        onClick()
+            initialize()
+            onClick()
+        }, 500)
     }
 
     fun initialize(){
@@ -39,7 +57,7 @@ class PlanningGoals : AppCompatActivity() {
         database = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("plannedGoals")
     }
 
-    fun getGoal() : DefinedGoal{
+    private fun getGoal() : DefinedGoal{
         return intent.extras?.get("definedGoal") as DefinedGoal
     }
 
@@ -58,9 +76,15 @@ class PlanningGoals : AppCompatActivity() {
             selectedGoal.planToOvercome = overComeObstacles.text.toString()
 
             if(selectedGoal.planToComplete != "" && selectedGoal.planToOvercome != ""){
-                writeNewGoal()
-                Toast.makeText(this, "Goal Successfully Planned", Toast.LENGTH_SHORT).show()
-                backActivity(R.layout.activity_selected_goal_weekly)
+                val snackbar: Snackbar = Snackbar
+                    .make(findViewById(R.id.plannedBackBtn), "Planned Finished?", Snackbar.LENGTH_LONG)
+                snackbar.setAction("YES"){
+                    writeNewGoal()
+                    Toast.makeText(this, "Goal Successfully Planned", Toast.LENGTH_SHORT).show()
+                    backActivity(R.layout.activity_selected_goal_weekly)
+                }
+
+                snackbar.show()
             }
             else{
                 Toast.makeText(this, "Enter Valid Plans for the Goal", Toast.LENGTH_SHORT).show()
@@ -70,7 +94,68 @@ class PlanningGoals : AppCompatActivity() {
     }
 
     // Write new Account to database with username as userId
-    fun writeNewGoal(){
+    private fun writeNewGoal(){
         database.push().setValue(selectedGoal)
+    }
+
+    fun getColor(){
+        // getting access to current user
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+
+        colar = ""
+
+        val postListener2 = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+
+                colar = dataSnapshot.getValue<String>()!!
+                modifyTheme()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        colorDatabase.addValueEventListener((postListener2))
+    }
+
+    fun modifyTheme(){
+        val window = this.window
+        val col = ColorChange()
+        val c = col.defineThemeColor(colar)
+        val color = ColorDrawable(Color.parseColor(c))
+
+        if (colar == "Red"){
+            setTheme(R.style.redTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.red)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Orange"){
+            setTheme(R.style.orangeTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.orange)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Yellow"){
+            setTheme(R.style.yellowTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.yellow)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Green"){
+            setTheme(R.style.greenTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.green)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Blue"){
+            setTheme(R.style.blueTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.blue)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Purple"){
+            setTheme(R.style.purpleTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.purple)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
     }
 }

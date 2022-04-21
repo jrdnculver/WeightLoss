@@ -8,10 +8,6 @@ class Address : Serializable {
     var state = String()
     var zip = String()
 
-    fun addressToString() : String {
-        return String.format("$street $city, $state $zip")
-    }
-
     fun addressToDatabaseFire() : String{
         return String.format("$street/$city/$state/$zip")
     }

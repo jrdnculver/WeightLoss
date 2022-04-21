@@ -1,15 +1,24 @@
 package com.example.weightloss_pathway_project
 
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.IgnoreExtraProperties
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 import java.util.*
@@ -17,7 +26,7 @@ import kotlin.collections.ArrayList
 
 class CreatedGoalWeekly : AppCompatActivity() {
     private lateinit var modeSelection : String
-    private lateinit var intensitySelecion : String
+    private lateinit var intensitySelection : String
     private lateinit var durationSelection : String
     private lateinit var mode : Spinner
     private lateinit var intensity : Spinner
@@ -37,21 +46,26 @@ class CreatedGoalWeekly : AppCompatActivity() {
     private lateinit var dayOfWeek : String
     private lateinit var newFitGoal : FitnessGoals
     private lateinit var newNutGoal : NutritionalGoals
+    private lateinit var colar : String
+    private var firebaseUser : FirebaseUser? = null
+    private lateinit var colorDatabase: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_created_goal_weekly)
-        title = "Set Goals"
-
-        database = Firebase.database.reference
-
-        instantiate()
-        createAdapters()
-        onClick()
+        getColor()
+        modifyTheme()
+        Handler(Looper.getMainLooper()).postDelayed({
+            setContentView(R.layout.activity_created_goal_weekly)
+            initialize()
+            createAdapters()
+            onClick()
+            title = "Set Goals"
+        }, 500)
     }
 
     // Instantiate objects from XML and list
-    private fun instantiate(){
+    private fun initialize(){
+        database = Firebase.database.reference
         submit = findViewById(R.id.weeklySubmitBtn)
         back = findViewById(R.id.weeklyMenuBtn)
         mode = findViewById(R.id.weeklyModeSpinner)
@@ -66,9 +80,12 @@ class CreatedGoalWeekly : AppCompatActivity() {
         newFitGoal = FitnessGoals()
         newNutGoal = NutritionalGoals()
         dayOfWeek = String()
-        database = database.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).child("clientGoals")
+        database = database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("clientGoals")
 
-        modes = ArrayList(mutableListOf("Cycling", "Running", "Treadmill", "Gym"))
+
+
+        modes = ArrayList(mutableListOf("Cycling", "Running", "Treadmill", "Gym", "Walking", "Dancing", "Swimming", "Water Aerobics", "Jogging", "Aerobics Class", "Basketball",
+                                        "Baseball", "Tennis", "Stretching", "Yoga", "Pilates", "Home Workout", "Hiking", "Power Walking", "Circuit Training"))
         intensities = ArrayList(mutableListOf("Intensity", "Low", "Moderate", "High"))
         durations = ArrayList(mutableListOf("Duration", "10", "20", "30", "40", "50", "60", "70", "80", "90"))
     }
@@ -103,7 +120,7 @@ class CreatedGoalWeekly : AppCompatActivity() {
             AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                intensitySelecion = intensities[position]
+                intensitySelection = intensities[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -131,7 +148,7 @@ class CreatedGoalWeekly : AppCompatActivity() {
 
     // Functions for onClick methods
     private fun onClick() {
-        submit.setOnClickListener() {
+        submit.setOnClickListener {
             val iteratedGoals = ArrayList<TextView>(
                 mutableListOf(
                     nutritionGoal1,
@@ -143,41 +160,46 @@ class CreatedGoalWeekly : AppCompatActivity() {
             val addedGoals = ArrayList<String>()
 
             newFitGoal.mode = modeSelection
-            newFitGoal.intensity = intensitySelecion
+            newFitGoal.intensity = intensitySelection
             newFitGoal.duration = durationSelection
             newFitGoal.goal = newFitGoal.goalString()
             newFitGoal.dow = dayOfWeek
             newFitGoal.date = dateSelection.text.toString()
             try {
-                if (modeSelection.isNotEmpty() && durationSelection.isNotEmpty() && intensitySelecion.isNotEmpty()) {
-                    if (modeSelection != "Mode" && durationSelection != "Duration" && intensitySelecion != "Intensity"){
-                        writeNewFitnessGoal()
+                val snackbar: Snackbar = Snackbar
+                    .make(findViewById(R.id.weeklySubmitBtn), "Is your information correct?", Snackbar.LENGTH_LONG)
+                snackbar.setAction("YES" ){
+                    if (modeSelection.isNotEmpty() && durationSelection.isNotEmpty() && intensitySelection.isNotEmpty()) {
+                        if (modeSelection != "Mode" && durationSelection != "Duration" && intensitySelection != "Intensity"){
+                            writeNewFitnessGoal()
+                        }
                     }
-                }
 
-                for (goalValue: TextView in iteratedGoals) {
-                    if (goalValue.text.isNotEmpty()) {
-                        addedGoals.add(goalValue.text.toString())
+                    for (goalValue: TextView in iteratedGoals) {
+                        if (goalValue.text.isNotEmpty()) {
+                            addedGoals.add(goalValue.text.toString())
+                        }
                     }
+
+                    for (goalValue: String in addedGoals) {
+                        newNutGoal.goal = goalValue.trim()
+                        newNutGoal.date = dateSelection.text.toString().trim()
+                        newNutGoal.dow = dayOfWeek.trim()
+                        writeNewNutritionGoal()
+                    }
+
+                    Toast.makeText(this, "Goal Created Successfully", Toast.LENGTH_SHORT).show()
+                    selectGoalActivity(R.layout.activity_selected_goal_weekly)
                 }
 
-                for (goalValue: String in addedGoals) {
-                    newNutGoal.goal = goalValue.trim()
-                    newNutGoal.date = dateSelection.text.toString().trim()
-                    newNutGoal.dow = dayOfWeek.trim()
-                    writeNewNutritionGoal()
-                }
-
-                Toast.makeText(this, "Goal Created Successfully", Toast.LENGTH_SHORT).show()
-                selectGoalActivity(R.layout.activity_selected_goal_weekly)
-
+                snackbar.show()
             } catch (e: Exception) {
                 Toast.makeText(this, "Error Creating Goal", Toast.LENGTH_SHORT).show()
             }
         }
 
-        val DOW = DayOfWeek()
-        val DATE = Date()
+        val dOW = DayOfWeek()
+        val dates = Date()
         date.setOnClickListener {
             val c = Calendar.getInstance()
             val day = c.get(Calendar.DAY_OF_MONTH)
@@ -189,12 +211,12 @@ class CreatedGoalWeekly : AppCompatActivity() {
                     this,
                     android.R.style.ThemeOverlay,
                     { _, Year, Month, Day ->
-                        DOW.dd = Day
-                        DOW.mm = Month + 1
-                        DOW.yyyy = Year
-                        dateSelection.text =
-                            "${DATE.monthToString(Month + 1)} $Day, $Year, ${DOW.calculate()}"
-                        dayOfWeek = DOW.calculate()
+                        dOW.dd = Day
+                        dOW.mm = Month + 1
+                        dOW.yyyy = Year
+                        val d = "${dates.monthToString(Month + 1)} $Day, $Year, ${dOW.calculate()}"
+                        dateSelection.text = d
+                        dayOfWeek = dOW.calculate()
                     },
                     year,
                     month,
@@ -209,12 +231,12 @@ class CreatedGoalWeekly : AppCompatActivity() {
     }
 
     // Write new Account to database with username as userId
-    fun writeNewFitnessGoal(){
+    private fun writeNewFitnessGoal(){
         database.push().setValue(newFitGoal)
     }
 
     // Write new Account to database with username as userId
-    fun writeNewNutritionGoal(){
+    private fun writeNewNutritionGoal(){
         database.push().setValue(newNutGoal)
     }
 
@@ -222,5 +244,66 @@ class CreatedGoalWeekly : AppCompatActivity() {
     private fun selectGoalActivity(view: Int){
         val intent = Intent(this, SelectedGoalWeekly::class.java)
         startActivity(intent)
+    }
+
+    fun getColor(){
+        // getting access to current user
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+
+        colar = ""
+
+        val postListener2 = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+
+                colar = dataSnapshot.getValue<String>()!!
+                modifyTheme()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        colorDatabase.addValueEventListener((postListener2))
+    }
+
+    fun modifyTheme(){
+        val window = this.window
+        val col = ColorChange()
+        val c = col.defineThemeColor(colar)
+        val color = ColorDrawable(Color.parseColor(c))
+
+        if (colar == "Red"){
+            setTheme(R.style.redTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.red)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Orange"){
+            setTheme(R.style.orangeTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.orange)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Yellow"){
+            setTheme(R.style.yellowTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.yellow)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Green"){
+            setTheme(R.style.greenTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.green)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Blue"){
+            setTheme(R.style.blueTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.blue)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Purple"){
+            setTheme(R.style.purpleTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.purple)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
     }
 }

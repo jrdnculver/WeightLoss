@@ -117,4 +117,6 @@
     <string name="Overcome">Overcoming</string>
     <string name="Complete">Complete</string>
     <string name="planGoal">Add Plan</string>
+    <!-- Settings -->
+    <string name="chooseColor">Theme Color</string>
 </resources>

@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/WeightLoss_main_style"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".About">
@@ -11,7 +10,6 @@
         android:id="@+id/aboutMenuBtn"
         android:layout_width="127dp"
         android:layout_height="53dp"
-        android:backgroundTint="#006990"
         android:text="@string/weeklyMenu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +21,6 @@
 
     <TextView
         android:id="@+id/aboutDescriptionLbl"
-        style="@style/WeightLoss_main_style"
         android:layout_width="383dp"
         android:layout_height="175dp"
         android:text="@string/aboutBrookeDesc"
@@ -36,7 +33,6 @@
 
     <TextView
         android:id="@+id/aboutIntro"
-        style="@style/WeightLoss_main_style"
         android:layout_width="183dp"
         android:layout_height="125dp"
         android:text="@string/aboutBrookeIntro"
@@ -50,7 +46,6 @@
 
     <TextView
         android:id="@+id/aboutHoursHeaderLbl"
-        style="@style/WeightLoss_main_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/aboutBrookeTitle"
@@ -64,7 +59,6 @@
 
     <TextView
         android:id="@+id/aboutHoursScheduleLbl"
-        style="@style/WeightLoss_main_style"
         android:layout_width="356dp"
         android:layout_height="111dp"
         android:text="@string/aboutBrookeHours"

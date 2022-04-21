@@ -45,8 +45,6 @@
         android:focusableInTouchMode="false"
         android:hint="@string/weeklyTabDateTxt"
         android:inputType="date"
-        android:textColor="#006990"
-        android:textColorHint="#006990"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.152"
@@ -78,10 +76,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="75dp"
-        android:background="#006990"
+        android:background="#000000"
         android:contentDescription="@string/TabDescription"
-        app:tabSelectedTextColor="#000000"
-        app:tabTextColor="#FFFFFF" />
+        app:tabSelectedTextColor="#FFFFFF"
+        app:tabTextColor="#D3D3D3" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"

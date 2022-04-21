@@ -1,10 +1,12 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.weightloss_pathway_project
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "DEPRECATION")
 // Create adapter for Tab Layout for DayOfWeek
 internal class MyTabAdapter(
     var context: Context,

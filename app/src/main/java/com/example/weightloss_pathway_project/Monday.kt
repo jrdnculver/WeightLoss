@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import java.lang.Exception
 
 class Monday : Fragment()  {
     private lateinit var dateString : String
@@ -80,20 +80,18 @@ class Monday : Fragment()  {
     // Query occurs asynchronously and requires downhill listview setting within function
     private fun gettingGoals(){
         // Access Database
-        var newPlan = DefinedGoal()
-
         val postListener2 = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
                 for (dataSnapShot in dataSnapshot.children) {
-                    newPlan = dataSnapShot.getValue<DefinedGoal>()!!
+                     val newPlan = dataSnapShot.getValue<DefinedGoal>()!!
                     currentPlannedGoals?.add(newPlan)
                 }
                 //createFitnessGoals()
                 createPlannedGoals()
 
                 // Will set listview values here
-                Handler().postDelayed({
+                Handler(Looper.getMainLooper()).postDelayed({
                     setListView()
                 }, 1000)
             }

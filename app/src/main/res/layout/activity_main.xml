@@ -32,7 +32,6 @@
             android:text="@string/mainDynamicName"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="#006990"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,18 +55,19 @@
 
         <TextView
             android:id="@+id/mainMotivationLbl"
-            android:layout_width="379dp"
-            android:layout_height="73dp"
+            android:layout_width="374dp"
+            android:layout_height="151dp"
+            android:gravity="center"
             android:text="@string/mainMotivation"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="#006990"
-            android:textSize="20sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.486"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.326" />
+            app:layout_constraintVertical_bias="0.408" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

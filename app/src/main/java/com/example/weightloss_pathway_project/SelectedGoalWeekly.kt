@@ -3,10 +3,15 @@ package com.example.weightloss_pathway_project
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.*
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -37,16 +42,20 @@ class SelectedGoalWeekly : AppCompatActivity() {
     private var coachGoals: ArrayList<DefinedGoal>? = null
     private var clientGoals: ArrayList<DefinedGoal>? = null
     private lateinit var weekDay : String
+    private lateinit var colar : String
+    private lateinit var colorDatabase: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_selected_goal_weekly)
-
-        initialize()
-        onClick()
-        gettingGoals()
-        createDateGoal()
-
+        getColor()
+        modifyTheme()
+        Handler(Looper.getMainLooper()).postDelayed({
+            setContentView(R.layout.activity_selected_goal_weekly)
+            initialize()
+            onClick()
+            gettingGoals()
+            createDateGoal()
+        }, 500)
     }
 
     // Initialize all variables
@@ -143,12 +152,10 @@ class SelectedGoalWeekly : AppCompatActivity() {
 
     // sets listview values
     fun setListView(){
-        val arrayAdapter = this.let {
-            ArrayAdapter(
-                it,
-                android.R.layout.simple_list_item_1, goalList
-            )
-        }
+        val arrayAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1, goalList
+        )
 
         coachesGoals.adapter = arrayAdapter
         coachesGoals.onItemClickListener =
@@ -165,8 +172,8 @@ class SelectedGoalWeekly : AppCompatActivity() {
 
     // onClick methods with component clicks
     private fun onClick(){
-        val DOW = DayOfWeek()
-        val DATE = Date()
+        val dOW = DayOfWeek()
+        val dates = Date()
         goalButton.setOnClickListener {
             val c = Calendar.getInstance()
             val day = c.get(Calendar.DAY_OF_MONTH)
@@ -178,11 +185,11 @@ class SelectedGoalWeekly : AppCompatActivity() {
                     this,
                     android.R.style.ThemeOverlay,
                     { _, Year, Month, Day ->
-                        DOW.dd = Day
-                        DOW.mm = Month + 1
-                        DOW.yyyy = Year
-                        goalDate.text =
-                            "${DATE.monthToString(Month + 1)} $Day, $Year, ${DOW.calculate()}"
+                        dOW.dd = Day
+                        dOW.mm = Month + 1
+                        dOW.yyyy = Year
+                        val d = "${dates.monthToString(Month + 1)} $Day, $Year, ${dOW.calculate()}"
+                        goalDate.text = d
                         //dayOfWeek = DOW.calculate()
                     },
                     year,
@@ -211,7 +218,7 @@ class SelectedGoalWeekly : AppCompatActivity() {
     }
 
     // Get current date and day
-    fun getCurrentDay() : String{
+    private fun getCurrentDay() : String{
         val calendar = Calendar.getInstance()
         val day = calendar[Calendar.DAY_OF_WEEK]
         Log.e("Day", "$day")
@@ -244,5 +251,66 @@ class SelectedGoalWeekly : AppCompatActivity() {
     private fun personalGoalActivity(view: Int){
         val intent = Intent(this, CreatedGoalWeekly::class.java)
         startActivity(intent)
+    }
+
+    fun getColor(){
+        // getting access to current user
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+
+        colar = ""
+
+        val postListener2 = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+
+                colar = dataSnapshot.getValue<String>()!!
+                modifyTheme()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        colorDatabase.addValueEventListener((postListener2))
+    }
+
+    fun modifyTheme(){
+        val window = this.window
+        val col = ColorChange()
+        val c = col.defineThemeColor(colar)
+        val color = ColorDrawable(Color.parseColor(c))
+
+        if (colar == "Red"){
+            setTheme(R.style.redTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.red)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Orange"){
+            setTheme(R.style.orangeTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.orange)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Yellow"){
+            setTheme(R.style.yellowTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.yellow)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Green"){
+            setTheme(R.style.greenTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.green)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Blue"){
+            setTheme(R.style.blueTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.blue)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Purple"){
+            setTheme(R.style.purpleTheme)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.purple)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.weightloss_pathway_project
 
-import java.util.*
-
 class Date {
     var month : String = String()
     var numMonth: Int = 0
@@ -9,10 +7,6 @@ class Date {
     var year : Int = 0
     var dayOfWeek : String = String()
     var numDayOfWeek : Int = 0
-
-    fun birthdayToString(birthday : Date) : String{
-        return String.format("${month + 1}/$day/$year, " + dayToString(numDayOfWeek))
-    }
 
     fun dayToString(num : Int) : String {
         val day = when (num) {

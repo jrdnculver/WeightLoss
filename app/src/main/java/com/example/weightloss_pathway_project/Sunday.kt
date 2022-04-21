@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,13 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
@@ -29,6 +34,8 @@ class Sunday : Fragment() {
     private var currentFitnessGoals: ArrayList<FitnessGoals>? = null
     private var currentPlannedGoals: ArrayList<DefinedGoal>? = null
     private lateinit var list : ListView
+    private lateinit var tabColor : TabLayout
+    private lateinit var colar : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +64,7 @@ class Sunday : Fragment() {
         currentFitnessGoals = ArrayList()
         currentNutritionalGoals = ArrayList()
         currentPlannedGoals = ArrayList()
+        tabColor = requireActivity().findViewById(R.id.tabLayout)
 
         try{
             // Set the date
@@ -77,20 +85,18 @@ class Sunday : Fragment() {
     // Query occurs asynchronously and requires downhill listview setting within function
     private fun gettingGoals(){
         // Access Database
-        var newPlan = DefinedGoal()
-
         val postListener2 = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
                 for (dataSnapShot in dataSnapshot.children) {
-                    newPlan = dataSnapShot.getValue<DefinedGoal>()!!
+                    val newPlan = dataSnapShot.getValue<DefinedGoal>()!!
                     currentPlannedGoals?.add(newPlan)
                 }
                 //createFitnessGoals()
                 createPlannedGoals()
 
                 // Will set listview values here
-                Handler().postDelayed({
+                Handler(Looper.getMainLooper()).postDelayed({
                     setListView()
                 }, 1000)
             }
@@ -146,6 +152,7 @@ class Sunday : Fragment() {
     private fun planActivity(view: Int, definedGoal : DefinedGoal){
         val intent = Intent(activity, PlannedView::class.java)
         intent.putExtra("viewGoal", definedGoal)
+        intent.putExtra("color", colar)
         requireActivity().startActivity(intent)
     }
 }

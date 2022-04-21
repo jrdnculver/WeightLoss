@@ -1,9 +1,7 @@
 package com.example.weightloss_pathway_project
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -13,7 +11,6 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.ktx.database
@@ -46,7 +43,7 @@ class CreateUserCredentials : AppCompatActivity() {
         database = Firebase.database.reference
         fireData = FirebaseFirestore.getInstance()
 
-        instantiate()
+        initialize()
         onClick()
 
 
@@ -71,7 +68,7 @@ class CreateUserCredentials : AppCompatActivity() {
     }
 
     // Instantiate object from XML
-    private fun instantiate(){
+    private fun initialize(){
         // link finish button
         finish = findViewById(R.id.createUserFinishBtn)
         // link cancel button
@@ -92,10 +89,10 @@ class CreateUserCredentials : AppCompatActivity() {
             val passwords = password.text.toString().trim()
 
             if (email.text.isEmpty()){
-                Toast.makeText(this, "Enter Valid Email", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter Valid Credentials", Toast.LENGTH_SHORT).show()
             }
             else if (password.text.isEmpty()){
-                Toast.makeText(this, "Enter Valid Password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter Valid Credentials", Toast.LENGTH_SHORT).show()
             }
             else {
                 val mail = Email()
@@ -110,20 +107,26 @@ class CreateUserCredentials : AppCompatActivity() {
                         .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success")
                             // Save User
                             writeNewUser(creatingUser.firstname, creatingUser.lastname, creatingUser.address, creatingUser.email, creatingUser.phone,
                                         creatingUser.birthday, creatingUser.isAdmin)
                             // Return to login page after account created
-                            finishedCreatedActivity(R.layout.activity_login)
+                            val snackbar: Snackbar = Snackbar
+                                .make(findViewById(R.id.createUserFinishBtn), "Is your information correct?", Snackbar.LENGTH_LONG)
+                            snackbar.setAction("YES"){
+                                Toast.makeText(this, "Successful Account Creation", Toast.LENGTH_LONG).show()
+                                finishedCreatedActivity(R.layout.activity_login)
+                            }
+
+                            snackbar.show()
                         } else {
                             // If sign in fails, display a message to the user.
                             try {
                                 throw task.exception!!
                             } catch (e: FirebaseAuthInvalidUserException) {
-                                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
                             } catch (e: FirebaseAuthInvalidCredentialsException) {
-                                Toast.makeText(this, "Invalid Password", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
                             } catch (e: FirebaseNetworkException) {
                                 Toast.makeText(
                                     this,
@@ -140,7 +143,7 @@ class CreateUserCredentials : AppCompatActivity() {
                     }
                 }
                 else{
-                    Toast.makeText(this, "Enter Valid Email", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Enter Valid Credentials", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -159,9 +162,9 @@ class CreateUserCredentials : AppCompatActivity() {
     }
 
     // Write new Account to database with username as userId
-    fun writeNewUser(firstname: String, lastname: String, address: String, email : String, phone: String, birthday : String, isAdmin: Boolean) {
+    private fun writeNewUser(firstname: String, lastname: String, address: String, email : String, phone: String, birthday : String, isAdmin: Boolean) {
         val user = SaveUser(firstname, lastname, address, email, phone, birthday, isAdmin)
 
-        database.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).child("account").setValue(user)
+        database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("account").setValue(user)
     }
 }

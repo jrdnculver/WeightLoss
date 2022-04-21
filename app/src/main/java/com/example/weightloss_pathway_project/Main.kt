@@ -2,19 +2,23 @@ package com.example.weightloss_pathway_project
 
 import android.content.ContentValues
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -27,27 +31,30 @@ class Main : AppCompatActivity() {
     private lateinit var myToggle: ActionBarDrawerToggle
     private var currentUser : Client? = null
     private var firebaseUser : FirebaseUser? = null
-    private lateinit var database: DatabaseReference
+    private lateinit var colorDatabase: DatabaseReference
+    private lateinit var accountDatabase: DatabaseReference
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var nav: NavigationView
+    private lateinit var colar : String
+    private lateinit var newGoals : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        getColor()
+        Handler().postDelayed({
+            setContentView(R.layout.activity_main)
+            initialize()
+            loggedIn()
+            onClick()},1500)
+    }
 
-        // getting access to current user
-        firebaseUser = FirebaseAuth.getInstance().currentUser
-        loggedIn()
-
+    private fun initialize(){
+        accountDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("account")
         // link set new goals button
-        val newGoals = findViewById<Button>(R.id.mainSetGoalsBtn)
-
-        // create action when newGoals button pressed
-        newGoals.setOnClickListener{
-            setWeeklyActivity(R.layout.activity_created_goal_weekly)
-        }
-
+        newGoals = findViewById(R.id.mainSetGoalsBtn)
         // gets id's of UI components for modification
-        val drawerLayout: DrawerLayout = findViewById(R.id.mainNavDrawer)
-        val nav: NavigationView = findViewById(R.id.navView)
+        drawerLayout= findViewById(R.id.mainNavDrawer)
+        nav = findViewById(R.id.navView)
 
         myToggle = ActionBarDrawerToggle(this, drawerLayout, 0, 0)
         drawerLayout.addDrawerListener(myToggle)
@@ -59,31 +66,43 @@ class Main : AppCompatActivity() {
         nav.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.dailyViewGoals -> {
+                    Log.e("color", colar)
                     weeklyTabActivity(R.layout.activity_weekly_tab)
                 }
                 R.id.navSettings -> {
                     settingsActivity(R.layout.activity_settings)
                 }
                 R.id.navContactUs -> {
-                    contactUsActivity(R.layout.activity_fire_base)
+                    Toast.makeText(this, "Currently Under Construction", Toast.LENGTH_LONG)
+                    //contactUsActivity(R.layout.activity_fire_base)
                 }
                 R.id.navAbout -> {
                     aboutActivity(R.layout.activity_about)
                 }
                 R.id.navHelp -> {
-                    helpActivity(R.layout.activity_help)
+                    Toast.makeText(this, "Currently Under Construction", Toast.LENGTH_LONG)
+                    //helpActivity(R.layout.activity_help)
                 }
                 R.id.navSignOut -> {
-                    Snackbar.make(findViewById(R.id.navSignOut), "Do you want to Sign out?",Snackbar.LENGTH_LONG).show()
-                    Firebase.auth.signOut()
-                    loginActivity(R.layout.activity_login)
+                    val snackbar: Snackbar = Snackbar
+                        .make(findViewById(R.id.navSignOut), "Confirm Sign Out?", Snackbar.LENGTH_LONG)
+                        snackbar.setAction("YES", ){
+                            Toast.makeText(this, "Successfully Logged Out", Toast.LENGTH_LONG).show()
+                            loginActivity(R.layout.activity_login)
+                        }
 
+                    snackbar.show()
                 }
 
             }
             true}
+    }
 
-
+    private fun onClick(){
+        // create action when newGoals button pressed
+        newGoals.setOnClickListener{
+            setWeeklyActivity(R.layout.activity_created_goal_weekly)
+        }
     }
 
     // Intent that will open login activity when activated
@@ -95,36 +114,43 @@ class Main : AppCompatActivity() {
     // Intent that will open about activity when activated
     private fun aboutActivity(view: Int){
         val intent = Intent(this, About::class.java)
+        intent.putExtra("color", colar)
         startActivity(intent)
     }
 
     // Intent that will open weekly activity when activated
     private fun setWeeklyActivity(view: Int){
         val intent = Intent(this, SelectedGoalWeekly::class.java)
+        intent.putExtra("color", colar)
         startActivity(intent)
     }
 
     // Intent that will open contact us activity when activated
     private fun contactUsActivity(view: Int){
-        val intent = Intent(this, FireBase::class.java)
+        val intent = Intent(this, Firebase::class.java)
+        intent.putExtra("color", colar)
         startActivity(intent)
     }
 
     // Intent that will open WeeklyTab activity when activated
     private fun weeklyTabActivity(view: Int){
         val intent = Intent(this, WeeklyTab::class.java)
+        Log.e("TABCOLOR", colar)
+        intent.putExtra("color", colar)
         startActivity(intent)
     }
 
     // Intent that will open login activity when activated
     private fun settingsActivity(view: Int){
         val intent = Intent(this, Settings::class.java)
+        intent.putExtra("color", colar)
         startActivity(intent)
     }
 
     // Intent that will open login activity when activated
     private fun helpActivity(view: Int){
         val intent = Intent(this, Help::class.java)
+        intent.putExtra("color", colar)
         startActivity(intent)
     }
 
@@ -136,7 +162,6 @@ class Main : AppCompatActivity() {
 
     private fun loggedIn(){
         // Access Database
-        database = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("account")
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -155,6 +180,67 @@ class Main : AppCompatActivity() {
                 Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-        database.addValueEventListener(postListener)
+        accountDatabase.addValueEventListener(postListener)
+    }
+
+    fun getColor(){
+        // getting access to current user
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).child("colorTheme")
+
+        colar = ""
+
+        val postListener2 = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+
+                colar = dataSnapshot.getValue<String>()!!
+                modifyTheme()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        colorDatabase.addValueEventListener((postListener2))
+    }
+
+    fun modifyTheme(){
+        val window = this.window
+        val col = ColorChange()
+        val c = col.defineThemeColor(colar)
+        val color = ColorDrawable(Color.parseColor("$c"))
+
+        if (colar == "Red"){
+            setTheme(R.style.redTheme)
+            window.statusBarColor = this.resources.getColor(R.color.red)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Orange"){
+            setTheme(R.style.orangeTheme)
+            window.statusBarColor = this.resources.getColor(R.color.orange)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Yellow"){
+            setTheme(R.style.yellowTheme)
+            window.statusBarColor = this.resources.getColor(R.color.yellow)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Green"){
+            setTheme(R.style.greenTheme)
+            window.statusBarColor = this.resources.getColor(R.color.green)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Blue"){
+            setTheme(R.style.blueTheme)
+            window.statusBarColor = this.resources.getColor(R.color.blue)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
+        else if (colar == "Purple"){
+            setTheme(R.style.purpleTheme)
+            window.statusBarColor = this.resources.getColor(R.color.purple)
+            supportActionBar?.setBackgroundDrawable(color)
+        }
     }
 }

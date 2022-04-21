@@ -58,7 +58,7 @@ class CreateUserContactInfo : AppCompatActivity() {
         // Access previous information from first name, last name, and birthdate
         creatingUser = getAccessToCurrentUser()
 
-        states = mutableListOf<String>(
+        states = mutableListOf(
             "State", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",
             "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
             "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK",
@@ -68,11 +68,11 @@ class CreateUserContactInfo : AppCompatActivity() {
 
         street = findViewById<EditText>(R.id.createContactStreetTxt)
         city = findViewById<EditText>(R.id.createContactCityTxt)
-        state = findViewById<Spinner>(R.id.createContactState)
+        state = findViewById(R.id.createContactState)
         phone = findViewById<EditText>(R.id.createContactPhoneTxt)
         zip = findViewById<EditText>(R.id.createContactZipTxt)
-        next = findViewById<Button>(R.id.createUserContactNextBtn)
-        cancel = findViewById<Button>(R.id.createUserCancelBtn)
+        next = findViewById(R.id.createUserContactNextBtn)
+        cancel = findViewById(R.id.createUserCancelBtn)
     }
 
     // Creating adapter
@@ -114,15 +114,15 @@ class CreateUserContactInfo : AppCompatActivity() {
             }
             else if (phone.text.isEmpty() || phone.text.length != 10){
                 Snackbar.make(findViewById(R.id.createContactPhoneTxt), "Enter Phone Number", Snackbar.LENGTH_LONG).show()
-                val number : Phone = Phone()
+                val number = Phone()
                 number.isValidPhone(phone.text.toString())
                 if (!number.isNumber){
                     Snackbar.make(findViewById(R.id.createContactPhoneTxt), "Enter Valid Phone Number", Snackbar.LENGTH_LONG).show()
                 }
             }
             else{
-                val address : Address = Address()
-                val number : Phone = Phone()
+                val address = Address()
+                val number = Phone()
 
                 address.street = street.text.toString().trim()
                 address.city = city.text.toString().trim()
@@ -137,7 +137,13 @@ class CreateUserContactInfo : AppCompatActivity() {
 
                 creatingUser.phone = number.phoneNumber
 
-                credentialsActivity(R.layout.activity_create_user_credentials)
+                val snackbar: Snackbar = Snackbar
+                    .make(findViewById(R.id.createContactStreetTxt), "Is your information correct?", Snackbar.LENGTH_LONG)
+                snackbar.setAction("YES" ){
+                    credentialsActivity(R.layout.activity_create_user_credentials)
+                }
+
+                snackbar.show()
             }
         }
 

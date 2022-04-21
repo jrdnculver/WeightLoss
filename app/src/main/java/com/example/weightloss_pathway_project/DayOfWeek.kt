@@ -1,40 +1,31 @@
 package com.example.weightloss_pathway_project
 
-import java.lang.Exception
-
 class DayOfWeek {
     var dd = 0
     var mm = 0
     var yyyy = 0
-    var monthValues = arrayListOf(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+    private var monthValues = arrayListOf(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-    fun FindDay(dd: Int, mm: Int, yyyy: Int) {
-        this.dd = dd
-        this.mm = mm
-        this.yyyy = yyyy
-    }
-
-    fun checkLeap(y: Int): Int {
+    private fun checkLeap(y: Int): Int {
         return if (y % 4 == 0 && y % 100 != 0 || y % 400 == 0) 1 else 0
     }
 
     fun calculate(): String {
 
         // Checking Leap year. If true then 1 else 0.
-        val flag_for_leap = checkLeap(yyyy)
+        val flagForLeap = checkLeap(yyyy)
 
-        /*Declaring and initialising the given informations
+        /*Declaring and initialising the given information
          * and arrays*/
         val day = arrayOf(
             "Sunday", "Monday", "Tuesday",
             "Wednesday", "Thursday", "Friday",
             "Saturday"
         )
-        val m_no = intArrayOf(0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5)
+        val mNo = intArrayOf(0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5)
 
         /*Generalised check to find any Year Value*/
-        val j: Int
-        j = if (yyyy / 100 % 2 == 0) {
+        val j: Int = if (yyyy / 100 % 2 == 0) {
             if (yyyy / 100 % 4 == 0) 6 else 2
         } else {
             if ((yyyy / 100 - 1) % 4 == 0) 4 else 0
@@ -42,16 +33,16 @@ class DayOfWeek {
 
         /*THE FINAL FORMULA*/
         val total = (yyyy % 100 + yyyy % 100 / 4 + dd
-                + m_no[mm - 1] + j)
-        if (flag_for_leap == 1) {
-            if (total % 7 > 0) return (day[total % 7 - 1]) else return (day[6])
-        } else return (day[total % 7])
+                + mNo[mm - 1] + j)
+        return if (flagForLeap == 1) {
+            if (total % 7 > 0) (day[total % 7 - 1]) else (day[6])
+        } else (day[total % 7])
     }
 
     // Find day of the week
     fun findDayOfWeek(date: String): String {
-        var splitDate = date.replace(",", "").split(" ")
-        var dates = Date()
+        val splitDate = date.replace(",", "").split(" ")
+        val dates = Date()
         dates.month = splitDate[0]
         dates.numMonth = dates.monthToNumber(splitDate[0])
         dates.day = splitDate[1].toInt()
@@ -59,15 +50,13 @@ class DayOfWeek {
         dates.dayOfWeek = splitDate[3]
         dates.numDayOfWeek = dates.dayToNumber(splitDate[3])
 
-        var value = getSunday(dates)
-
-        return value
+        return getSunday(dates)
     }
 
     // Find Sunday of the week selected
-    fun getSunday(date: Date): String {
+    private fun getSunday(date: Date): String {
 
-        var dayValue = when (date.numDayOfWeek) {
+        val dayValue = when (date.numDayOfWeek) {
             0 -> date.day
             1 -> date.day - 1
             2 -> date.day - 2
@@ -78,7 +67,6 @@ class DayOfWeek {
             else -> 99
         }
 
-        var previous = dayValue
         date.day = dayValue
 
         if (date.day < 0) {
@@ -86,7 +74,7 @@ class DayOfWeek {
             date.numMonth = date.numMonth - 1
             if (date.numMonth <= 0) {
                 date.numMonth = 12
-                date.day = monthValues[date.numMonth - 1] + previous
+                date.day = monthValues[date.numMonth - 1] + dayValue
                 date.year = date.year - 1
             }
         }
@@ -96,8 +84,8 @@ class DayOfWeek {
 
     // Find next day relative to other date
     fun nextDay(date: String): String {
-        var splitDate = date.replace(",", "").split(" ")
-        var dates = Date()
+        val splitDate = date.replace(",", "").split(" ")
+        val dates = Date()
         dates.month = splitDate[0]
         dates.numMonth = dates.monthToNumber(splitDate[0])
         dates.day = splitDate[1].toInt()
@@ -107,7 +95,7 @@ class DayOfWeek {
 
         dates.day = dates.day + 1
         dates.numDayOfWeek = dates.numDayOfWeek + 1
-        var da = Date()
+        val da = Date()
         dates.dayOfWeek = da.dayToString(dates.numDayOfWeek)
         if(dates.numDayOfWeek > 6){
             dates.numDayOfWeek = 0

@@ -21,19 +21,19 @@ class FireBase : AppCompatActivity() {
                     .createSignInIntentBuilder()
                     .build(),
                 signInRequestCode
-            );
+            )
         } else {
             // User is already signed in. Therefore, display
             // a welcome Toast
             Toast.makeText(this,
                 "Welcome " + FirebaseAuth.getInstance()
                     .currentUser
-                    ?.getDisplayName(),
+                    ?.displayName,
                 Toast.LENGTH_LONG)
-                .show();
+                .show()
 
             // Load chat room contents
-            displayChatMessages();
+            displayChatMessages()
         }
     }
 
