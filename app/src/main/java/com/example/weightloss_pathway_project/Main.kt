@@ -6,14 +6,15 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -41,7 +42,7 @@ class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getColor()
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             setContentView(R.layout.activity_main)
             initialize()
             loggedIn()
@@ -73,20 +74,20 @@ class Main : AppCompatActivity() {
                     settingsActivity(R.layout.activity_settings)
                 }
                 R.id.navContactUs -> {
-                    Toast.makeText(this, "Currently Under Construction", Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Currently Under Construction", Toast.LENGTH_LONG).show()
                     //contactUsActivity(R.layout.activity_fire_base)
                 }
                 R.id.navAbout -> {
                     aboutActivity(R.layout.activity_about)
                 }
                 R.id.navHelp -> {
-                    Toast.makeText(this, "Currently Under Construction", Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Currently Under Construction", Toast.LENGTH_LONG).show()
                     //helpActivity(R.layout.activity_help)
                 }
                 R.id.navSignOut -> {
                     val snackbar: Snackbar = Snackbar
                         .make(findViewById(R.id.navSignOut), "Confirm Sign Out?", Snackbar.LENGTH_LONG)
-                        snackbar.setAction("YES", ){
+                        snackbar.setAction("YES"){
                             Toast.makeText(this, "Successfully Logged Out", Toast.LENGTH_LONG).show()
                             loginActivity(R.layout.activity_login)
                         }
@@ -135,7 +136,6 @@ class Main : AppCompatActivity() {
     // Intent that will open WeeklyTab activity when activated
     private fun weeklyTabActivity(view: Int){
         val intent = Intent(this, WeeklyTab::class.java)
-        Log.e("TABCOLOR", colar)
         intent.putExtra("color", colar)
         startActivity(intent)
     }
@@ -186,7 +186,7 @@ class Main : AppCompatActivity() {
     fun getColor(){
         // getting access to current user
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().getCurrentUser()!!.getUid()).child("colorTheme")
+        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
 
         colar = ""
 
@@ -206,40 +206,40 @@ class Main : AppCompatActivity() {
         colorDatabase.addValueEventListener((postListener2))
     }
 
-    fun modifyTheme(){
+    private fun modifyTheme(){
         val window = this.window
         val col = ColorChange()
         val c = col.defineThemeColor(colar)
-        val color = ColorDrawable(Color.parseColor("$c"))
+        val color = ColorDrawable(Color.parseColor(c))
 
         if (colar == "Red"){
             setTheme(R.style.redTheme)
-            window.statusBarColor = this.resources.getColor(R.color.red)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.red)
             supportActionBar?.setBackgroundDrawable(color)
         }
         else if (colar == "Orange"){
             setTheme(R.style.orangeTheme)
-            window.statusBarColor = this.resources.getColor(R.color.orange)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.orange)
             supportActionBar?.setBackgroundDrawable(color)
         }
         else if (colar == "Yellow"){
             setTheme(R.style.yellowTheme)
-            window.statusBarColor = this.resources.getColor(R.color.yellow)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.yellow)
             supportActionBar?.setBackgroundDrawable(color)
         }
         else if (colar == "Green"){
             setTheme(R.style.greenTheme)
-            window.statusBarColor = this.resources.getColor(R.color.green)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.green)
             supportActionBar?.setBackgroundDrawable(color)
         }
         else if (colar == "Blue"){
             setTheme(R.style.blueTheme)
-            window.statusBarColor = this.resources.getColor(R.color.blue)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.blue)
             supportActionBar?.setBackgroundDrawable(color)
         }
         else if (colar == "Purple"){
             setTheme(R.style.purpleTheme)
-            window.statusBarColor = this.resources.getColor(R.color.purple)
+            window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.purple)
             supportActionBar?.setBackgroundDrawable(color)
         }
     }
