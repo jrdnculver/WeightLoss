@@ -119,4 +119,7 @@
     <string name="planGoal">Add Plan</string>
     <!-- Settings -->
     <string name="chooseColor">Theme Color</string>
+    <!-- Chat -->
+    <string name="sending">SEND</string>
+    <string name="chat">Chat activity</string>
 </resources>

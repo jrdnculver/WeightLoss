@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.lang.Exception
 import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
@@ -70,8 +71,8 @@ class SelectedGoalWeekly : AppCompatActivity() {
         dateString = String()
         goalList = ArrayList()
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        clientDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("clientGoals")
-        coachDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("coachGoals")
+        clientDatabase = Firebase.database.reference.child("Main").child("Users").child(firebaseUser!!.uid).child("ClientGoals")
+        coachDatabase = Firebase.database.reference.child("Main").child("Users").child(firebaseUser!!.uid).child("CoachGoals")
         currentFitnessGoals = ArrayList()
         currentNutritionalGoals = ArrayList()
         coachGoals = ArrayList()
@@ -256,7 +257,7 @@ class SelectedGoalWeekly : AppCompatActivity() {
     fun getColor(){
         // getting access to current user
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+        colorDatabase = Firebase.database.reference.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ColorTheme")
 
         colar = ""
 

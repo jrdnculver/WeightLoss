@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeightLoss_Pathway_project">
         <activity
+            android:name=".UsersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlannedView"
             android:exported="false" />
         <activity

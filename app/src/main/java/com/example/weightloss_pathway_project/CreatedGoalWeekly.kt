@@ -80,11 +80,11 @@ class CreatedGoalWeekly : AppCompatActivity() {
         newFitGoal = FitnessGoals()
         newNutGoal = NutritionalGoals()
         dayOfWeek = String()
-        database = database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("clientGoals")
+        database = database.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ClientGoals")
 
 
 
-        modes = ArrayList(mutableListOf("Cycling", "Running", "Treadmill", "Gym", "Walking", "Dancing", "Swimming", "Water Aerobics", "Jogging", "Aerobics Class", "Basketball",
+        modes = ArrayList(mutableListOf("Mode", "Cycling", "Running", "Treadmill", "Gym", "Walking", "Dancing", "Swimming", "Water Aerobics", "Jogging", "Aerobics Class", "Basketball",
                                         "Baseball", "Tennis", "Stretching", "Yoga", "Pilates", "Home Workout", "Hiking", "Power Walking", "Circuit Training"))
         intensities = ArrayList(mutableListOf("Intensity", "Low", "Moderate", "High"))
         durations = ArrayList(mutableListOf("Duration", "10", "20", "30", "40", "50", "60", "70", "80", "90"))
@@ -249,7 +249,7 @@ class CreatedGoalWeekly : AppCompatActivity() {
     fun getColor(){
         // getting access to current user
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+        colorDatabase = Firebase.database.reference.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ColorTheme")
 
         colar = ""
 

@@ -232,7 +232,7 @@ class WeeklyTab : AppCompatActivity() {
     fun getColor(){
         // getting access to current user
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+        colorDatabase = Firebase.database.reference.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ColorTheme")
 
         val postListener2 = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

@@ -40,7 +40,7 @@ class Settings : AppCompatActivity() {
 
         // getting access to current user
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+        colorDatabase = Firebase.database.reference.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ColorTheme")
 
 
     }
@@ -49,7 +49,7 @@ class Settings : AppCompatActivity() {
         colorChoices = ArrayList(arrayListOf("Red", "Orange", "Yellow", "Green", "Blue","Purple"))
         colorChoice = findViewById(R.id.settingChooseColor)
         auth= FirebaseAuth.getInstance()
-        database = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+        database = Firebase.database.reference.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ColorTheme")
         submit = findViewById(R.id.settingsSubmitBtn)
         back = findViewById(R.id.settingsBackBtn)
 

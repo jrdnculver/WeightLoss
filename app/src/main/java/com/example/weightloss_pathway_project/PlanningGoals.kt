@@ -54,7 +54,7 @@ class PlanningGoals : AppCompatActivity() {
         completeGoal = findViewById(R.id.planCompleteGoalViewTxt)
         overComeObstacles = findViewById(R.id.planToOvercomeViewTxt)
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        database = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("plannedGoals")
+        database = Firebase.database.reference.child("Main").child("Users").child(firebaseUser!!.uid).child("PlannedGoals")
     }
 
     private fun getGoal() : DefinedGoal{

@@ -56,7 +56,7 @@ class Friday : Fragment() {
         dateString = String()
         goalList = ArrayList()
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        plannedDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("plannedGoals")
+        plannedDatabase = Firebase.database.reference.child("Main").child("Users").child(firebaseUser!!.uid).child("PlannedGoals")
         currentFitnessGoals = ArrayList()
         currentNutritionalGoals = ArrayList()
         currentPlannedGoals = ArrayList()

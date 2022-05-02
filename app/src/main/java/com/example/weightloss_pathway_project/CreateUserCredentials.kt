@@ -116,6 +116,8 @@ class CreateUserCredentials : AppCompatActivity() {
                             snackbar.setAction("YES"){
                                 Toast.makeText(this, "Successful Account Creation", Toast.LENGTH_LONG).show()
                                 finishedCreatedActivity(R.layout.activity_login)
+
+                                database.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ColorTheme").setValue("Blue")
                             }
 
                             snackbar.show()
@@ -165,6 +167,6 @@ class CreateUserCredentials : AppCompatActivity() {
     private fun writeNewUser(firstname: String, lastname: String, address: String, email : String, phone: String, birthday : String, isAdmin: Boolean) {
         val user = SaveUser(firstname, lastname, address, email, phone, birthday, isAdmin)
 
-        database.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("account").setValue(user)
+        database.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("Account").setValue(user)
     }
 }

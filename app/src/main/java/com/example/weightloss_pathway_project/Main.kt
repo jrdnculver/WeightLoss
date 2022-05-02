@@ -50,7 +50,7 @@ class Main : AppCompatActivity() {
     }
 
     private fun initialize(){
-        accountDatabase = Firebase.database.reference.child("users").child(firebaseUser!!.uid).child("account")
+        accountDatabase = Firebase.database.reference.child("Main").child("Users").child(firebaseUser!!.uid).child("Account")
         // link set new goals button
         newGoals = findViewById(R.id.mainSetGoalsBtn)
         // gets id's of UI components for modification
@@ -75,7 +75,6 @@ class Main : AppCompatActivity() {
                 }
                 R.id.navContactUs -> {
                     Toast.makeText(this, "Currently Under Construction", Toast.LENGTH_LONG).show()
-                    //contactUsActivity(R.layout.activity_fire_base)
                 }
                 R.id.navAbout -> {
                     aboutActivity(R.layout.activity_about)
@@ -127,11 +126,11 @@ class Main : AppCompatActivity() {
     }
 
     // Intent that will open contact us activity when activated
-    private fun contactUsActivity(view: Int){
-        val intent = Intent(this, Firebase::class.java)
-        intent.putExtra("color", colar)
-        startActivity(intent)
-    }
+//    private fun contactUsActivity(view: Int){
+//        val intent = Intent(this, UsersActivity::class.java)
+//        intent.putExtra("color", colar)
+//        startActivity(intent)
+//    }
 
     // Intent that will open WeeklyTab activity when activated
     private fun weeklyTabActivity(view: Int){
@@ -186,7 +185,7 @@ class Main : AppCompatActivity() {
     fun getColor(){
         // getting access to current user
         firebaseUser = FirebaseAuth.getInstance().currentUser
-        colorDatabase = Firebase.database.reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("colorTheme")
+        colorDatabase = Firebase.database.reference.child("Main").child("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("ColorTheme")
 
         colar = ""
 
